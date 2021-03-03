@@ -1,6 +1,9 @@
 %--------------------
 % Packages
 % -------------------
+
+
+
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
@@ -22,7 +25,13 @@
 \usepackage[all]{nowidow} % Tries to remove widows
 \usepackage[protrusion=true,expansion=true]{microtype} % Improves typography, load after fontpackage is selected
 
+% Trying to figure out how to add bibliography
+\usepackage[
+    citestyle = authoryear, %in-text citation style
+    style = apa] % bibliography style
+    {biblatex}
 
+\addbibresource{SYS6582_class_project.bib}
 
 %-----------------------
 % Set pdf information and add title, fill in the fields
@@ -47,15 +56,20 @@ SYS 6582 Reinforcement Learning
 
 
 \subsection*{Problem}
-Nonstationarity induced by climate change poses a challenge for designing robust stormwater management systems (SMS) because of the large uncertainty in future precipitation probability distributions. This uncertainty presents a risk of expensive over building or under building depending on how wrong our precipitation projections are. SMS practices implementing real-time control (RTC) have potential for addressing this challenge. RTC practices are a subset of active SMS practices which are distinct from passive practices such as ponds and bioretention facilities with fixed outlets. They include pumps and valves that control flow through pipes and water levels in ponds which allow the system to adapt, within limits, to changing conditions. Reinforcement learning has been used in other studies to optimize RTC policies in order to confirm their superiority to passive practices with respect to flooding metrics, as well as to confirm their superiority under scenarios of sea level rise and precipitation intensification. However, the previous studies considered only the single objective of mitigating flooding and they considered nonstationarity only to strengthen the conclusion that RTC was better than passive practices. Our project seeks to expand on previous work in two ways, and maybe a third if time permits. First, we will investigate the use RL in a multi-objective SMS space by comparing the performance of RTC policies derived from different RL techniques using a single objective or multiple objectives. The objectives will include flood mitigation metrics, matching 'natural' downstream flows, and improving water quality. Second, we will evaluate the robustness of those RTC policies under a range of nonstationary conditions. Third, if there is time, we are also interested in exploring the effect of spatial and temporal variability in precipitation on the rate the RL algorithms converge toward an optimal solutions, the performance of those solution, and their performance under changing future conditions.
+Nonstationarity induced by climate change poses a challenge for designing robust stormwater management systems (SMS) because of the large uncertainty in future precipitation probability distributions. This uncertainty presents a risk of expensive over building or under building depending on how wrong our precipitation projections are. SMS practices implementing real-time control (RTC) have potential for addressing this challenge. RTC practices are a subset of active SMS practices which are distinct from passive practices such as ponds and bioretention facilities with fixed outlets. They include pumps and valves that control flow through pipes and water levels in ponds which allow the system to adapt, within limits, to changing conditions. Reinforcement learning has been used in a previous study to optimize RTC policies in order to confirm their superiority to passive practices with respect to flooding metrics, as well as to confirm their superiority under scenarios of sea level rise and precipitation intensification (\cite{bowes2020joh}). However, this study considered only the single objective of mitigating flooding and they considered nonstationarity only to strengthen the conclusion that RTC was better than passive practices. Our project seeks to expand on previous work in two ways, and maybe a third if time permits. First, we will investigate the use RL in a multi-objective SMS space by comparing the performance of RTC policies derived from different RL techniques using a single objective or multiple objectives. The objectives will include flood mitigation metrics, matching 'natural' downstream flows, and improving water quality. Second, we will evaluate the robustness of those RTC policies under a range of nonstationary conditions. Third, if there is time, we are also interested in exploring the effect of spatial and temporal variability in precipitation on the rate the RL algorithms converge toward an optimal solutions, the performance of those solution, and their performance under changing future conditions.
 
 \subsection*{Evaluation Methods}
 We will compare the performance of RL algorithms based on speed of convergence, policy variability, and performance with respect to system objectives.
 
 \subsection*{Literature Review Plan}
-Our literature review will span the following topics will focus the use of RL techniques in SMS. We've begun compiling and processing literature and our shared bibliography is shown below.
+Our literature review will span the following topics will focus the use of RL techniques in SMS. We've begun compiling and processing literature and our shared bibliography is shown at the end of this document.
 
 \subsection*{Proposed Methods}
 We are still in the process of identifying the RL techniques we will compare but those based on direct policy and deep neural networks are being considered for the multi-objective optimization and deep deterministic policy gradients for the single objective optimization. Our simulated environment is EPA's Stormwater Management Model (SWMM) which has the capability of representing the rainfall-runoff process as well as system hydraulics which allows for the modeling of RTC structures. Nonstationary precipitation conditions will be modeled by either using downscaled climate projections based on a range of representative concentration pathways (RCPs) or by employing a stochastic weather generator and arbitrarily adjusting the probability distributions over time.
 
+\nocite{*}
+\printbibliography
+
 \end{document}
+
+

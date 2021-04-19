@@ -1,4 +1,39 @@
 
+@article{abourjeily2018joh,
+  title = {Model {{Predictive Control}} for Optimising the Operation of {{Urban Drainage Systems}}},
+  author = {Abou Rjeily, Yves and Abbas, Oras and Sadek, Marwan and Shahrour, Isam and Hage Chehade, Fadi},
+  date = {2018-11-01},
+  journaltitle = {Journal of Hydrology},
+  shortjournal = {Journal of Hydrology},
+  volume = {566},
+  pages = {558--565},
+  issn = {0022-1694},
+  doi = {10.1016/j.jhydrol.2018.09.044},
+  url = {https://www.sciencedirect.com/science/article/pii/S0022169418307388},
+  urldate = {2021-03-17},
+  abstract = {This work presents a methodology for developing a Model Predictive Control (MPC) for enhancing the operation of Urban Drainage Systems (UDS). The objective of the MPC is to apply a proactive management strategy that uses optimised time-state schedules for operating the actuators of UDS in real time. Aiming to mitigate flooding consequences, the MPC uses EPA-SWMM hydrologic-hydraulic simulation engine and Genetic Algorithm (GA) to optimise the time-state schedules for the actuators of UDS. The efficiency of the MPC was tested on the Lille University Campus, resulting in satisfying improvements in the use of storage capacity of retention elements within the UDS.},
+  keywords = {Floods mitigation,Genetic Algorithm,Model Predictive Control,Proactive management strategy,Urban Drainage Systems},
+  langid = {english}
+}
+
+@article{bhattacharya2003jwrpm,
+  title = {Neural {{Networks}} and {{Reinforcement Learning}} in {{Control}} of {{Water Systems}}},
+  author = {Bhattacharya, B. and Lobbrecht, A. H. and Solomatine, D. P.},
+  date = {2003-11-01},
+  journaltitle = {Journal of Water Resources Planning and Management},
+  volume = {129},
+  pages = {458--465},
+  publisher = {{American Society of Civil Engineers}},
+  issn = {0733-9496},
+  doi = {10.1061/(ASCE)0733-9496(2003)129:6(458)},
+  url = {https://ascelibrary.org/doi/abs/10.1061/%28ASCE%290733-9496%282003%29129%3A6%28458%29},
+  urldate = {2021-03-17},
+  abstract = {In dynamic real-time control (RTC) of regional water systems, a multicriteria optimization problem has to be solved to determine the optimal control strategy. Nonlinear and/or dynamic programming based on simulation models can be used to find the solution, an approach being used in the Aquarius decision support system (DSS) developed in The Netherlands. However, the computation time required for complex models is often prohibitively long, and therefore such a model cannot be applied in RTC of water systems. In this study, Aquarius DSS is chosen as a reference model for building a controller using machine learning techniques such as artificial neural networks (ANN) and reinforcement learning (RL), where RL is used to decrease the error of the ANN-based component. The model was tested with complex water systems in The Netherlands, and very good results were obtained. The general conclusion is that a controller, which has learned to replicate the optimal control strategy, can be used in RTC operations.},
+  keywords = {Dynamic programming,Learning,learning (artificial intelligence),Netherlands,neural nets,Neural networks,optimal control,water supply,Water supply systems},
+  langid = {english},
+  number = {6}
+}
+
 @article{bowes2020joh,
   title = {Flood Mitigation in Coastal Urban Catchments Using Real-Time Stormwater Infrastructure Control and Reinforcement Learning},
   author = {Bowes, Benjamin D. and Tavakoli, Arash and Wang, Cheng and Heydarian, Arsalan and Behl, Madhur and Beling, Peter A. and Goodall, Jonathan L.},
@@ -12,6 +47,23 @@
   abstract = {Flooding in coastal cities is increasing due to climate change and sea-level rise, stressing the traditional stormwater systems these communities rely on. Automated real-time control (RTC) of these systems can improve performance, and creating control policies for smart stormwater systems is an active area of study. This research explores reinforcement learning (RL) to create control policies to mitigate flood risk. RL is trained using a model of hypothetical urban catchments with a tidal boundary and two retention ponds with controllable valves. RL's performance is compared to the passive system, a model predictive control (MPC) strategy, and a rule-based control strategy (RBC). RL learns to proactively manage pond levels using current and forecast conditions and reduced flooding by 32\% over the passive system. Compared to the MPC approach using a physics-based model and genetic algorithm, RL achieved nearly the same flood reduction, just 3\% less than MPC, with a significant 88× speedup in runtime. Compared to RBC, RL was able to quickly learn similar control strategies and reduced flooding by an additional 19\%. This research demonstrates that RL can effectively control a simple system and offers a computationally efficient method that could scale to RTC of more complex stormwater systems.},
   file = {C\:\\Users\\Daniel\\Dropbox\\Zotero_Sys\\storage\\ZZRARNPJ\\Bowes et al_2020_Flood mitigation in coastal urban catchments using.pdf},
   issue = {jh2020080}
+}
+
+@article{castelletti2010wrr,
+  title = {Tree-Based Reinforcement Learning for Optimal Water Reservoir Operation},
+  author = {Castelletti, A. and Galelli, S. and Restelli, M. and Soncini‐Sessa, R.},
+  date = {2010},
+  journaltitle = {Water Resources Research},
+  volume = {46},
+  issn = {1944-7973},
+  doi = {10.1029/2009WR008898},
+  url = {https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2009WR008898},
+  urldate = {2021-02-24},
+  abstract = {Although being one of the most popular and extensively studied approaches to design water reservoir operations, Stochastic Dynamic Programming is plagued by a dual curse that makes it unsuitable to cope with large water systems: the computational requirement grows exponentially with the number of state variables considered (curse of dimensionality) and an explicit model must be available to describe every system transition and the associated rewards/costs (curse of modeling). A variety of simplifications and approximations have been devised in the past, which, in many cases, make the resulting operating policies inefficient and of scarce relevance in practical contexts. In this paper, a reinforcement-learning approach, called fitted Q-iteration, is presented: it combines the principle of continuous approximation of the value functions with a process of learning off-line from experience to design daily, cyclostationary operating policies. The continuous approximation, performed via tree-based regression, makes it possible to mitigate the curse of dimensionality by adopting a very coarse discretization grid with respect to the dense grid required to design an equally performing policy via Stochastic Dynamic Programming. The learning experience, in the form of a data set generated combining historical observations and model simulations, allows us to overcome the curse of modeling. Lake Como water system (Italy) is used as study site to infer general guidelines on the appropriate setting for the algorithm parameters and to demonstrate the advantages of the approach in terms of accuracy and computational effectiveness compared to traditional Stochastic Dynamic Programming.},
+  annotation = {\_eprint: https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2009WR008898},
+  keywords = {favorite author,Q-iteration,reinforcement learning,reservoir operation,stochastic dynamic programming,tree-based regression},
+  langid = {english},
+  number = {9}
 }
 
 @inproceedings{chengwang2020i2cp-1iciscrm,
@@ -33,6 +85,55 @@
   langid = {english}
 }
 
+@article{garcia2015aiwr,
+  title = {Modeling and Real-Time Control of Urban Drainage Systems: {{A}} Review},
+  shorttitle = {Modeling and Real-Time Control of Urban Drainage Systems},
+  author = {García, L. and Barreiro-Gomez, J. and Escobar, E. and Téllez, D. and Quijano, N. and Ocampo-Martinez, C.},
+  date = {2015-11-01},
+  journaltitle = {Advances in Water Resources},
+  shortjournal = {Advances in Water Resources},
+  volume = {85},
+  pages = {120--132},
+  issn = {0309-1708},
+  doi = {10.1016/j.advwatres.2015.08.007},
+  url = {https://www.sciencedirect.com/science/article/pii/S0309170815001931},
+  urldate = {2021-03-17},
+  abstract = {Urban drainage systems (UDS) may be considered large-scale systems given their large number of associated states and decision actions, making challenging their real-time control (RTC) design. Moreover, the complexity of the dynamics of the UDS makes necessary the development of strategies for the control design. This paper reviews and discusses several techniques and strategies commonly used for the control of UDS. Moreover, the models to describe, simulate, and control the transport of wastewater in UDS are also reviewed.},
+  keywords = {Modeling,Real-time control},
+  langid = {english}
+}
+
+@book{goodfellow2016,
+  title = {Deep {{Learning}}},
+  author = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
+  date = {2016},
+  publisher = {{The MIT Press}},
+  location = {{Cambridge, Massachusetts}},
+  abstract = {"Deep learning is a form of machine learning that enables computers to learn from experience and understand the world in terms of a hierarchy of concepts. Because the computer gathers knowledge from experience, there is no need for a human computer operator to formally specify all the knowledge that the computer needs. The hierarchy of concepts allows the computer to learn complicated concepts by building them out of simpler ones; a graph of these hierarchies would be many layers deep. This book introduces a broad range of topics in deep learning. The text offers mathematical and conceptual background, covering relevant concepts in linear algebra, probability theory and information theory, numerical computation, and machine learning. It describes deep learning techniques used by practitioners in industry, including deep feedforward networks, regularization, optimization algorithms, convolutional networks, sequence modeling, and practical methodology; and it surveys such applications as natural language processing, speech recognition, computer vision, online recommendation systems, bioinformatics, and videogames. Finally, the book offers research perspectives, covering such theoretical topics as linear factor models, autoencoders, representation learning, structured probabilistic models, Monte Carlo methods, the partition function, approximate inference, and deep generative models. Deep Learning can be used by undergraduate or graduate students planning careers in either industry or research, and by software engineers who want to begin using deep learning in their products or platforms. A website offers supplementary material for both readers and instructors"--},
+  isbn = {978-0-262-03561-3},
+  keywords = {Machine learning},
+  langid = {english},
+  series = {Adaptive Computation and Machine Learning}
+}
+
+@article{hornik1989nn,
+  title = {Multilayer Feedforward Networks Are Universal Approximators},
+  author = {Hornik, Kurt and Stinchcombe, Maxwell and White, Halbert},
+  date = {1989-01-01},
+  journaltitle = {Neural Networks},
+  shortjournal = {Neural Networks},
+  volume = {2},
+  pages = {359--366},
+  issn = {0893-6080},
+  doi = {10.1016/0893-6080(89)90020-8},
+  url = {https://www.sciencedirect.com/science/article/pii/0893608089900208},
+  urldate = {2021-03-17},
+  abstract = {This paper rigorously establishes that standard multilayer feedforward networks with as few as one hidden layer using arbitrary squashing functions are capable of approximating any Borel measurable function from one finite dimensional space to another to any desired degree of accuracy, provided sufficiently many hidden units are available. In this sense, multilayer feedforward networks are a class of universal approximators.},
+  keywords = {Back-propagation networks,Feedforward networks,Mapping networks,Network representation capability,Sigma-Pi networks,Squashing functions,Stone-Weierstrass Theorem,Universal approximation},
+  langid = {english},
+  number = {5}
+}
+
 @article{ibrahim2020jhe,
   title = {Real-{{Time Control Algorithm}} for {{Enhancing Operation}} of {{Network}} of {{Stormwater Management Facilities}}},
   author = {Ibrahim, Yosif A.},
@@ -51,6 +152,93 @@
   number = {2}
 }
 
+@article{lecun2015n,
+  title = {Deep Learning},
+  author = {LeCun, Yann and Bengio, Yoshua and Hinton, Geoffrey},
+  date = {2015-05},
+  journaltitle = {Nature},
+  volume = {521},
+  pages = {436--444},
+  publisher = {{Nature Publishing Group}},
+  issn = {1476-4687},
+  doi = {10.1038/nature14539},
+  url = {https://www.nature.com/articles/nature14539},
+  urldate = {2021-03-17},
+  abstract = {Deep learning allows computational models that are composed of multiple processing layers to learn representations of data with multiple levels of abstraction. These methods have dramatically improved the state-of-the-art in speech recognition, visual object recognition, object detection and many other domains such as drug discovery and genomics. Deep learning discovers intricate structure in large data sets by using the backpropagation algorithm to indicate how a machine should change its internal parameters that are used to compute the representation in each layer from the representation in the previous layer. Deep convolutional nets have brought about breakthroughs in processing images, video, speech and audio, whereas recurrent nets have shone light on sequential data such as text and speech.},
+  issue = {7553},
+  langid = {english},
+  number = {7553}
+}
+
+@online{lillicrap2019acs,
+  title = {Continuous Control with Deep Reinforcement Learning},
+  author = {Lillicrap, Timothy P. and Hunt, Jonathan J. and Pritzel, Alexander and Heess, Nicolas and Erez, Tom and Tassa, Yuval and Silver, David and Wierstra, Daan},
+  date = {2019-07-05},
+  url = {http://arxiv.org/abs/1509.02971},
+  urldate = {2021-03-17},
+  abstract = {We adapt the ideas underlying the success of Deep Q-Learning to the continuous action domain. We present an actor-critic, model-free algorithm based on the deterministic policy gradient that can operate over continuous action spaces. Using the same learning algorithm, network architecture and hyper-parameters, our algorithm robustly solves more than 20 simulated physics tasks, including classic problems such as cartpole swing-up, dexterous manipulation, legged locomotion and car driving. Our algorithm is able to find policies whose performance is competitive with those found by a planning algorithm with full access to the dynamics of the domain and its derivatives. We further demonstrate that for many of the tasks the algorithm can learn policies end-to-end: directly from raw pixel inputs.},
+  archiveprefix = {arXiv},
+  eprint = {1509.02971},
+  eprinttype = {arxiv},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  primaryclass = {cs, stat}
+}
+
+@article{lund2018crest,
+  title = {Model Predictive Control of Urban Drainage Systems: {{A}} Review and Perspective towards Smart Real-Time Water Management},
+  shorttitle = {Model Predictive Control of Urban Drainage Systems},
+  author = {Lund, Nadia Schou Vorndran and Falk, Anne Katrine Vinther and Borup, Morten and Madsen, Henrik and Mikkelsen, Peter Steen},
+  date = {2018-02-01},
+  journaltitle = {Critical Reviews in Environmental Science and Technology},
+  volume = {48},
+  pages = {279--339},
+  publisher = {{Taylor \& Francis}},
+  issn = {1064-3389},
+  doi = {10.1080/10643389.2018.1455484},
+  url = {https://doi.org/10.1080/10643389.2018.1455484},
+  urldate = {2021-03-17},
+  abstract = {Model predictive control (MPC) can be used to manage combined urban drainage systems more efficiently for protection of human health and the environment, but examples of operational implementations are rare. This paper reviews more than 30 years of partly heterogeneous research on the topic. We propose a terminology for MPC of urban drainage systems and a hierarchical categorization where we emphasize four overall components: the “receding horizon principle”, the “optimization model”, the “optimization solver”, and the “internal MPC model”. Most of the reported optimization models share the trait of a multiobjective optimization based on a conceptual internal MPC model. However, there is a large variety of both convex and non-linear optimization models and optimization solvers as well as constructions of the internal MPC model. Furthermore, literature disagrees about the optimal length of the components in the receding horizon principle. The large number of MPC formulations and evaluation approaches makes it problematic to compare different MPC methods. This review highlights methods, challenges, and research gaps in order to make MPC of urban drainage systems accessible for researchers and practitioners from different disciplines. This will pave the way for shared understanding and further development within the field, and eventually lead to more operational implementations.},
+  annotation = {\_eprint: https://doi.org/10.1080/10643389.2018.1455484},
+  keywords = {Model predictive control,real-time operation,urban drainage systems},
+  number = {3}
+}
+
+@article{maier2014em&s,
+  title = {Evolutionary Algorithms and Other Metaheuristics in Water Resources: {{Current}} Status, Research Challenges and Future Directions},
+  shorttitle = {Evolutionary Algorithms and Other Metaheuristics in Water Resources},
+  author = {Maier, H. R. and Kapelan, Z. and Kasprzyk, J. and Kollat, J. and Matott, L. S. and Cunha, M. C. and Dandy, G. C. and Gibbs, M. S. and Keedwell, E. and Marchi, A. and Ostfeld, A. and Savic, D. and Solomatine, D. P. and Vrugt, J. A. and Zecchin, A. C. and Minsker, B. S. and Barbour, E. J. and Kuczera, G. and Pasha, F. and Castelletti, A. and Giuliani, M. and Reed, P. M.},
+  date = {2014-12-01},
+  journaltitle = {Environmental Modelling \& Software},
+  shortjournal = {Environmental Modelling \& Software},
+  volume = {62},
+  pages = {271--299},
+  issn = {1364-8152},
+  doi = {10.1016/j.envsoft.2014.09.013},
+  url = {https://www.sciencedirect.com/science/article/pii/S1364815214002679},
+  urldate = {2021-02-20},
+  abstract = {The development and application of evolutionary algorithms (EAs) and other metaheuristics for the optimisation of water resources systems has been an active research field for over two decades. Research to date has emphasized algorithmic improvements and individual applications in specific areas (e.g. model calibration, water distribution systems, groundwater management, river-basin planning and management, etc.). However, there has been limited synthesis between shared problem traits, common EA challenges, and needed advances across major applications. This paper clarifies the current status and future research directions for better solving key water resources problems using EAs. Advances in understanding fitness landscape properties and their effects on algorithm performance are critical. Future EA-based applications to real-world problems require a fundamental shift of focus towards improving problem formulations, understanding general theoretic frameworks for problem decompositions, major advances in EA computational efficiency, and most importantly aiding real decision-making in complex, uncertain application contexts.},
+  keywords = {Evolutionary algorithms,Metaheuristics,Optimisation,Research directions,Review,Water resources},
+  langid = {english}
+}
+
+@article{mnih2015n,
+  title = {Human-Level Control through Deep Reinforcement Learning},
+  author = {Mnih, Volodymyr and Kavukcuoglu, Koray and Silver, David and Rusu, Andrei A. and Veness, Joel and Bellemare, Marc G. and Graves, Alex and Riedmiller, Martin and Fidjeland, Andreas K. and Ostrovski, Georg and Petersen, Stig and Beattie, Charles and Sadik, Amir and Antonoglou, Ioannis and King, Helen and Kumaran, Dharshan and Wierstra, Daan and Legg, Shane and Hassabis, Demis},
+  date = {2015-02},
+  journaltitle = {Nature},
+  volume = {518},
+  pages = {529--533},
+  publisher = {{Nature Publishing Group}},
+  issn = {1476-4687},
+  doi = {10.1038/nature14236},
+  url = {https://www.nature.com/articles/nature14236},
+  urldate = {2021-03-17},
+  abstract = {An artificial agent is developed that learns to play~a diverse range of classic Atari 2600 computer games directly from sensory experience, achieving a~performance comparable to that of an expert human player; this work paves the way to building general-purpose learning algorithms that bridge the divide between perception and action.},
+  issue = {7540},
+  langid = {english},
+  number = {7540}
+}
+
 @unpublished{mullapudi2020,
   title = {Statistical {{Learning Approaches}} for the {{Control}} of {{Stormwater Systems}}},
   author = {Mullapudi, Abhiram},
@@ -62,6 +250,7 @@
   howpublished = {Dissertation},
   keywords = {bayesian optimization,dissertation,reinforcement learning,sensor networks,smart stormwater systems,stormwater management},
   langid = {english},
+  type = {Dissertation}
 }
 
 @article{mullapudi2020aiwr,
@@ -78,6 +267,23 @@
   urldate = {2021-02-24},
   abstract = {A new generation of smart stormwater systems promises to reduce the need for new construction by enhancing the performance of the existing infrastructure through real-time control. Smart stormwater systems dynamically adapt their response to individual storms by controlling distributed assets, such as valves, gates, and pumps. This paper introduces a real-time control approach based on Reinforcement Learning (RL), which has emerged as a state-of-the-art methodology for autonomous control in the artificial intelligence community. Using a Deep Neural Network, a RL-based controller learns a control strategy by interacting with the system it controls - effectively trying various control strategies until converging on those that achieve a desired objective. This paper formulates and implements a RL algorithm for the real-time control of urban stormwater systems. This algorithm trains a RL agent to control valves in a distributed stormwater system across thousands of simulated storm scenarios, seeking to achieve water level and flow set-points in the system. The algorithm is first evaluated for the control of an individual stormwater basin, after which it is adapted to the control of multiple basins in a larger watershed (4\,km2). The results indicate that RL can very effectively control individual sites. Performance is highly sensitive to the reward formulation of the RL agent. Generally, more explicit guidance led to better control performance, and more rapid and stable convergence of the learning process. While the control of multiple distributed sites also shows promise in reducing flooding and peak flows, the complexity of controlling larger systems comes with a number of caveats. The RL controller’s performance is very sensitive to the formulation of the Deep Neural Network and requires a significant amount of computational resource to achieve a reasonable performance enhancement. Overall, the controlled system significantly outperforms the uncontrolled system, especially across storms of high intensity and duration. A frank discussion is provided, which should allow the benefits and drawbacks of RL to be considered when implementing it for the real-time control of stormwater systems. An open source implementation of the full simulation environment and control algorithms is also provided.},
   keywords = {deep neural network,open source,real-time control,reinforcement learning,sensitivity analysis,smart stormwater systems,stormwater management},
+  langid = {english}
+}
+
+@article{sadler2019em&s,
+  title = {Leveraging Open Source Software and Parallel Computing for Model Predictive Control of Urban Drainage Systems Using {{EPA}}-{{SWMM5}}},
+  author = {Sadler, Jeffrey M. and Goodall, Jonathan L. and Behl, Madhur and Morsy, Mohamed M. and Culver, Teresa B. and Bowes, Benjamin D.},
+  date = {2019-10-01},
+  journaltitle = {Environmental Modelling \& Software},
+  shortjournal = {Environmental Modelling \& Software},
+  volume = {120},
+  pages = {104484},
+  issn = {1364-8152},
+  doi = {10.1016/j.envsoft.2019.07.009},
+  url = {https://www.sciencedirect.com/science/article/pii/S1364815218312325},
+  urldate = {2021-03-17},
+  abstract = {Active stormwater control will play an increasingly important role in mitigating urban flooding, which is becoming more common with climate change and sea level rise. In this paper we describe and demonstrate swmm\_mpc, software developed for simulating model predictive control (MPC) for urban drainage systems using open source software (Python and the EPA Stormwater Management Model version 5 (SWMM5)). Swmm\_mpc uses an evolutionary algorithm as an optimizer and supports parallel processing. In the demonstration case for a hypothetical, tidally-influenced urban drainage system, the swmm\_mpc control policies for two storage units achieved its objectives of 1) practically eliminating flooding and 2) maintaining the water level at the storage units close to a target level. Although the current swmm\_mpc workflow was feasible for a simple model using a desktop PC, a high-performance computer or cloud-based computer with more computational cores would likely be needed for most real-world models.},
+  keywords = {Model predictive control,Parallel processing,Real-time control,Stormwater,Urban drainage modeling,Urban flooding},
   langid = {english}
 }
 
@@ -115,6 +321,33 @@
   keywords = {deep deterministic policy gradient (DDPG),forecasting precipitation,monitoring,real-time control,reinforcement learning,sensor networks,smart stormwater systems,uncertainty,urban flood modeling,urban flooding},
   langid = {english},
   number = {11}
+}
+
+@article{shishegar2018n,
+  title = {Optimization Methods Applied to Stormwater Management Problems: A Review},
+  shorttitle = {Optimization Methods Applied to Stormwater Management Problems},
+  author = {Shishegar, Shadab and Duchesne, Sophie and Pelletier, Geneviève},
+  date = {2018-03-16},
+  journaltitle = {Urban Water Journal},
+  shortjournal = {null},
+  volume = {15},
+  pages = {276--286},
+  publisher = {{Taylor \& Francis}},
+  issn = {1573-062X},
+  doi = {10.1080/1573062X.2018.1439976},
+  url = {https://iahr.tandfonline.com/doi/abs/10.1080/1573062X.2018.1439976},
+  urldate = {2021-03-17},
+  abstract = {Stormwater management essentially aims at controlling the surface runoff to reduce water pollution and restore ecosystem integrity. This paper reviews and discusses several optimization problems associated with this field. Different features of such problems were identified to provide a classified investigation of the literature in terms of control approach, performance criteria, stormwater management approach, and uncertainty consideration. Having evaluated the relevant literature based on these factors, the knowledge gaps were extracted. We have noticed that there is an upward trend towards sustainable management of stormwater systems to deal with climate change. Despite this progress, there are still many areas to further develop stormwater management models, many of which relate to uncertainty identification, system-level real-time control, and the proper formulation of multi-objective optimization models. Hence, integration of different criteria in optimization models, and also the study of design vs. operation of stormwater management systems are proposed as further studies.},
+  number = {3}
+}
+
+@article{sutton2000,
+  title = {Policy {{Gradient Methods}} for {{Reinforcement Learning}} with {{Function Approximation}}},
+  author = {Sutton, Richard S and McAllester, David and Singh, Satinder and Mansour, Yishay},
+  date = {2000},
+  pages = {7},
+  abstract = {Function approximation is essential to reinforcement learning, but the standard approach of approximating a value function and determining a policy from it has so far proven theoretically intractable. In this paper we explore an alternative approach in which the policy is explicitly represented by its own function approximator, independent of the value function, and is updated according to the gradient of expected reward with respect to the policy parameters. Williams’s REINFORCE method and actor–critic methods are examples of this approach. Our main new result is to show that the gradient can be written in a form suitable for estimation from experience aided by an approximate action-value or advantage function. Using this result, we prove for the first time that a version of policy iteration with arbitrary differentiable function approximation is convergent to a locally optimal policy.},
+  langid = {english}
 }
 
 

@@ -73,6 +73,8 @@ class ThermostatEnvironment(Environment):
     decay to a temperature of 0.0.  The exponential constant that determines
     how fast it approaches these temperatures over timesteps is tau.
     """
+   # J: current_temp could be changed to current_flow which is Links(sim)["8"].flow*35.3147
+   # J: this is where we define everything and start the swmm model
     def __init__(self):
         ## Some initializations.  Will eventually parameterize this in the constructor.
         self.tau = 3.0
@@ -81,10 +83,13 @@ class ThermostatEnvironment(Environment):
         super().__init__()
 
 
+# J: would the states be the depth in P1 and P2?
     def states(self):
         return dict(type='float', shape=(1,), min_value=0.0, max_value=1.0)
 
-
+# J: would the actions be the position of the valves at P1 and P2? Would we need to figure
+# J: out how to program the lid for this section, given two valve positions?
+# need to add a min and a max value to capture everything between 0 and 1
     def actions(self):
         """Action 0 means no heater, temperature approaches 0.0.  Action 1 means
         the heater is on and the room temperature approaches 1.0.
@@ -92,17 +97,19 @@ class ThermostatEnvironment(Environment):
         return dict(type='int', num_values=2)
 
 
-    # Optional, should only be defined if environment has a natural maximum
-    # episode length
+    #(original comment) Optional, should only be defined if environment has a natural maximum
+    #(original comment) episode length
+    # I can change the frequency (maybe 15 minutes, maybe something else)
     def max_episode_timesteps(self):
         return super().max_episode_timesteps()
 
 
+### J: Not sure how this works with the swmm model.
     # Optional
     def close(self):
         super().close()
 
-
+### J: Not sure how this works with the swmm model.
     def reset(self):
         """Reset state.
         """
@@ -111,7 +118,7 @@ class ThermostatEnvironment(Environment):
         self.current_temp = np.random.random(size=(1,))
         return self.current_temp
 
-
+# J: The response should be the total flow in Pipe8, correct? We might not need this piece
     def response(self, action):
         """Respond to an action.  When the action is 1, the temperature
         exponentially decays approaches 1.0.  When the action is 0,
@@ -119,7 +126,8 @@ class ThermostatEnvironment(Environment):
         """
         return action + (self.current_temp - action) * math.exp(-1.0 / self.tau)
 
-
+# J: The reward is 0 if the flow in Pipe8 is betwee, X1 and X2, or else we could have
+# J: it negatively increase as the flow increases/decreases beyond the boundary. 
     def reward_compute(self):
         """ The reward here is 0 if the current temp is between 0.4 and 0.6,
         else it is distance the temp is away from the 0.4 or 0.6 boundary.
@@ -132,7 +140,7 @@ class ThermostatEnvironment(Environment):
         else:
             return -delta[0] + 0.1
 
-
+# check this with the step function in Ben's code
     def execute(self, actions):
         ## Check the action is either 0 or 1 -- heater on or off.
         assert actions == 0 or actions == 1

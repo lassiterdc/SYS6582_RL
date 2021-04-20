@@ -39,7 +39,6 @@ df = pd.DataFrame(list(zip(sAction, sResponse)), columns=['action', 'response'])
 df.plot()
 
 ## goal and reward
-
 def reward(temp):
         delta = abs(temp - 0.5)
         if delta < 0.1:

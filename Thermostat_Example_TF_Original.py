@@ -11,7 +11,7 @@ Created on Thu Apr 15 13:11:49 2021
 
 @author: JakeNelson
 """
-
+# this is the original
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np

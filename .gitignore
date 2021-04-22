@@ -40,3 +40,6 @@ vignettes/*.pdf
 *.out
 *.rpt
 *.dbf
+theta.out
+theta.rpt
+theta/Orifices.dbf

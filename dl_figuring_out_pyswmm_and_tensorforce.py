@@ -1,3 +1,4 @@
+#%% import libraries
 import numpy as np
 from tensorforce.environments import Environment
 from tensorforce.agents import Agent
@@ -5,6 +6,7 @@ from pyswmm import Simulation, Nodes, Links
 import pyswmm.toolkitapi as tkai
 import random
 
+#%% run simulation
 # nodes module: https://pyswmm.readthedocs.io/en/stable/reference/nodes.html
 # links module: https://pyswmm.readthedocs.io/en/stable/reference/links.html
 with Simulation('theta.inp') as sim:
@@ -69,7 +71,7 @@ pf_l8 = stats_l8['peak_flow']
 fld_p1 = stats_p1['flooding_volume']
 fld_p2 = stats_p2['flooding_volume']
    
-#%%
+#%% plot simulation results
 import matplotlib.pyplot as plt
 time_h = np.arange(0, step_cnt+1, 1) * step_size / 60 / 60 
 
@@ -113,6 +115,236 @@ plt.tight_layout()
 
 plt.savefig('plots/test.png', dpi = 300, transparent = False)
 plt.show()
+
+#%% work - blank class to test env creation
+class test:
+    def __init__(self):
+        pass
+#%% environment class pasted and modified from pystorm
+import numpy as np
+from pyswmm.simulation import Simulation
+import pyswmm.toolkitapi as tkai
+
+class environment:
+    r"""Environment for controlling the swmm simulation
+
+    This class acts as an interface between swmm's simulation
+    engine and computational components. This class's methods are defined
+    as getters and setters for generic stormwater attributes. So that, if need be, this
+    class can be updated with a different simulation engine, keeping rest of the
+    workflow stable.
+
+
+    Attributes
+    ----------
+    config : dict
+        dictionary with swmm_ipunt and, action and state space `(ID, attribute)`
+    ctrl : boolean
+        if true, config has to be a dict, else config needs to be the path to the input file
+
+    Methods
+    ----------
+    step
+        steps the simulation forward by a time step and returns the new state
+    initial_state
+        returns the initial state in the stormwater network
+    terminate
+        closes the swmm simulation
+    reset
+        closes the swmm simulaton and start a new one with the predefined config file.
+    """
+
+    def __init__(self, config): # got rid of ctrl and binary thing
+        self.config = config
+        self.sim = Simulation(self.config["swmm_input"])
+        self.sim.start()
+
+        # methods
+        self.methods = {
+            "depthN": self._getNodeDepth,
+            "depthL": self._getLinkDepth,
+            "volumeN": self._getNodeVolume,
+            "volumeL": self._getLinkVolume,
+            "flow": self._getLinkFlow,
+            "flooding": self._getNodeFlooding,
+            "inflow": self._getNodeInflow,
+        }
+
+    def _state(self):
+        r"""
+        Query the stormwater network states based on the config file.
+        """
+        state = []
+        for _temp in self.config["states"]:
+            ID = _temp[0]
+            attribute = _temp[1]
+            state.append(self.methods[attribute](ID))
+
+        state = np.asarray(state)
+
+
+    def step(self, actions=None):
+        r"""
+        Implements the control action and forwards
+        the simulation by a step.
+
+        Parameters:
+        ----------
+        actions : list or array
+            actions to take as an array (1 x n)
+        
+        n = size of action space
+
+        Returns:
+        -------
+        new_state : array
+            next state
+        done : boolean
+            event termination indicator
+        """
+        if actions is not None:
+            # implement the actions
+            for asset, valve_position in zip(self.config["action_space"], actions):
+                self._setValvePosition(asset, valve_position)
+
+        # take the step !
+        time = self.sim._model.swmm_step()
+        done = False if time > 0 else True
+        return done
+
+    def reset(self):
+        r"""
+        Resets the simulation and returns the initial state
+
+        Returns
+        -------
+        initial_state : array
+            initial state in the network
+        """
+        self.terminate()
+
+        # Start the next simulation
+        self.sim._model.swmm_open()
+        self.sim._model.swmm_start()
+
+        # get the state
+        state = self._state()
+        return state
+
+    def terminate(self):
+        r"""
+        Terminates the simulation
+        """
+        self.sim._model.swmm_end()
+        self.sim._model.swmm_close()
+
+    def initial_state(self):
+        r"""
+        Get the initial state in the stormwater network
+
+        Returns
+        -------
+        initial_state : array
+            initial state in the network
+        """
+
+        return self._state()
+
+    # ------ Node Parameters  ----------------------------------------------
+    def _getNodeDepth(self, ID):
+        return self.sim._model.getNodeResult(ID, tkai.NodeResults.newDepth.value)
+
+    def _getNodeFlooding(self, ID):
+        return self.sim._model.getNodeResult(ID, tkai.NodeResults.overflow.value)
+
+    def _getNodeLosses(self, ID):
+        return self.sim._model.getNodeResult(ID, tkai.NodeResults.losses.value)
+    
+    def _getNodeVolume(self, ID):
+        return self.sim._model.getNodeResult(ID, tkai.NodeResults.newVolume.value)
+
+    def _getNodeInflow(self, ID):
+        return self.sim._model.getNodeResult(ID, tkai.NodeResults.totalinflow.value)
+
+    def _setInflow(self, ID, value):
+        return self.sim._model.setNodeInflow(ID, value)
+
+    # ------ Valve modifications -------------------------------------------
+    def _getValvePosition(self, ID):
+        return self.sim._model.getLinkResult(ID, tkai.LinkResults.setting.value)
+
+    def _setValvePosition(self, ID, valve):
+        self.sim._model.setLinkSetting(ID, valve)
+
+    # ------ Link modifications --------------------------------------------
+    def _getLinkDepth(self, ID):
+        return self.sim._model.getLinkResult(ID, tkai.LinkResults.newDepth.value)
+
+    def _getLinkVolume(self, ID):
+        return self.sim._model.getLinkResult(ID, tkai.LinkResults.newVolume.value)
+
+    def _getLinkFlow(self, ID):
+        return self.sim._model.getLinkResult(ID, tkai.LinkResults.newFlow.value)
+#%% pasted scenario theta class creation from pystorm
+#from pystorms.environment import environment
+#from pystorms.networks import load_network
+#from pystorms.config import load_config
+#from pystorms.scenarios import scenario
+#from pystorms.utilities import threshold
+import yaml
+
+class swmm_env:
+    """
+    Model name is the model .inp name WITHOUT the .inp extension
+    """
+    def __init__(self, model_name, threshold):
+        # Network configuration
+        self.config = yaml.load(open("config/" + model_name + ".yaml", "r"), yaml.FullLoader)
+        self.config["swmm_input"] = model_name + '.inp'
+
+        self.threshold = threshold
+
+        # Create the environment based on the physical parameters
+        self.env = environment(self.config, ctrl=True)
+
+        # Create an object for storing the data points
+        self.data_log = {"performance_measure": [], "flow": {}, "flooding": {}}
+
+        # Data logger for storing _performance data
+        for ID, attribute in self.config["performance_targets"]:
+            self.data_log[attribute][ID] = []
+
+    def step(self, actions=None, log=True):
+        # Implement the actions and take a step forward
+        done = self.env.step(actions)
+
+        # Log the flows in the networks
+        if log:
+            self._logger()
+
+        # Estimate the performance
+        __performance = 0.0
+
+        for ID, attribute in self.config["performance_targets"]:
+            if attribute == "flooding":
+                __flood = self.env.methods[attribute](ID)
+                if __flood > 0.0:
+                    __performance += 10 ** 6
+            if attribute == "flow":
+                __flow = self.env.methods[attribute](ID)
+                __performance = threshold(
+                    value=__flow, target=self.threshold, scaling=10.0
+                )
+
+        # Record the _performance
+        self.data_log["performance_measure"].append(__performance)
+
+        # Terminate the simulation
+        if done:
+            self.env.terminate()
+
+        return done
+
 
 #%% creating environment
 class pyswmm_env(Environment):

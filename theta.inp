@@ -23,7 +23,8 @@ DRY_DAYS             0
 REPORT_STEP          00:15:00
 WET_STEP             00:05:00
 DRY_STEP             01:00:00
-ROUTING_STEP         0:00:30 
+ROUTING_STEP         30
+RULE_STEP            00:00:00
 
 INERTIAL_DAMPING     PARTIAL
 NORMAL_FLOW_LIMITED  BOTH
@@ -46,26 +47,26 @@ DRY_ONLY         NO
 
 [RAINGAGES]
 ;;Name           Format    Interval SCF      Source    
-;;-------------- --------- ------ ------ ----------
+;;-------------- --------- -------- -------- ----------
 1                INTENSITY 1:00     1.0      TIMESERIES T               
 
 [SUBCATCHMENTS]
 ;;Name           Rain Gage        Outlet           Area     %Imperv  Width    %Slope   CurbLen  SnowPack        
 ;;-------------- ---------------- ---------------- -------- -------- -------- -------- -------- ----------------
-SC1              1                P1               100        25       500      0.5      0                        
-3                1                P2               100        25       500      0.5      0                        
+3                1                P2               100      25       500      0.5      0                        
+SC1              1                P1               100      25       500      0.5      0                        
 
 [SUBAREAS]
 ;;Subcatchment   N-Imperv   N-Perv     S-Imperv   S-Perv     PctZero    RouteTo    PctRouted 
 ;;-------------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-SC1              0.01       0.1        0.05       0.05       25         OUTLET    
 3                0.01       0.1        0.05       0.05       25         OUTLET    
+SC1              0.01       0.1        0.05       0.05       25         OUTLET    
 
 [INFILTRATION]
-;;Subcatchment   MaxRate    MinRate    Decay      DryTime    MaxInfil  
+;;Subcatchment   Param1     Param2     Param3     Param4     Param5    
 ;;-------------- ---------- ---------- ---------- ---------- ----------
-SC1              3.0        0.5        4          7          0         
 3                3.0        0.5        4          7          0         
+SC1              3.0        0.5        4          7          0         
 
 [JUNCTIONS]
 ;;Name           Elevation  MaxDepth   InitDepth  SurDepth   Aponded   
@@ -77,15 +78,15 @@ P2J              95         0          0          0          0
 ;;Name           Elevation  Type       Stage Data       Gated    Route To        
 ;;-------------- ---------- ---------- ---------------- -------- ----------------
 O                80         FREE                        NO                       
-        
+
 [DIVIDERS]
 ;;Name           Elevation  Diverted Link    Type       Parameters
 ;;-------------- ---------- ---------------- ---------- ----------
-PJ3              90         8                CUTOFF     0          0          0          0          0     
+PJ3              90         8                CUTOFF     0          0          0          0          0         
 
 [STORAGE]
 ;;Name           Elev.    MaxDepth   InitDepth  Shape      Curve Name/Params            N/A      Fevap    Psi      Ksat     IMD     
-;;-------------- -------- ---------- ----------- ---------- ---------------------------- -------- --------          -------- --------
+;;-------------- -------- ---------- ---------- ---------- ---------------------------- -------- --------          -------- --------
 P1               100      2          0          FUNCTIONAL 1000      0         0        0        0       
 P2               95       2          0          FUNCTIONAL 1000      0         0        0        0       
 
@@ -111,13 +112,17 @@ P2               95       2          0          FUNCTIONAL 1000      0         0
 1                RECT_CLOSED  1                1          0          0
 2                RECT_CLOSED  1                1          0          0
 
+[LOSSES]
+;;Link           Kentry     Kexit      Kavg       Flap Gate  Seepage   
+;;-------------- ---------- ---------- ---------- ---------- ----------
+
 [CURVES]
 ;;Name           Type       X-Value    Y-Value   
 ;;-------------- ---------- ---------- ----------
-S                Storage    0.0        100      
-S                           0.25       100      
-S                           0.5        100      
-S                           1          100      
+S                Storage    0          100       
+S                           0.25       100       
+S                           0.5        100       
+S                           1          100       
 
 [TIMESERIES]
 ;;Name           Date       Time       Value     
@@ -127,12 +132,11 @@ T                           01:00      1.2
 T                           02:00      2.3       
 T                           03:00      3.2       
 T                           04:00      3.1       
-T                           05:00      3.1
-T			    06:00      2.1
-T			    07:00      1.1
-T			    08:00      0.1
-T			    09:00      0.0
-   
+T                           05:00      3.1       
+T                           06:00      2.1       
+T                           07:00      1.1       
+T                           08:00      0.1       
+T                           09:00      0.0       
 
 [REPORT]
 ;;Reporting Options
@@ -145,14 +149,14 @@ LINKS ALL
 [TAGS]
 
 [MAP]
-DIMENSIONS 0.000 0.000 10000.000 10000.000
-Units      None
+DIMENSIONS       -4001.69965      1562.62055       9175.61065       10141.17845     
+UNITS            None
 
 [COORDINATES]
 ;;Node           X-Coord            Y-Coord           
 ;;-------------- ------------------ ------------------
 P1J              3443.396           5294.811          
-P2J              5783.582           6019.900          
+P2J              5783.582           6019.9            
 O                8576.642           1952.555          
 PJ3              5534.826           4402.985          
 P1               2325.871           5733.831          
@@ -162,9 +166,14 @@ P2               5820.896           6492.537
 ;;Link           X-Coord            Y-Coord           
 ;;-------------- ------------------ ------------------
 
-[Polygons]
+[POLYGONS]
 ;;Subcatchment   X-Coord            Y-Coord           
 ;;-------------- ------------------ ------------------
+3                3500               9751.244          
+3                3313.433           7649.254          
+3                7144.279           7562.189          
+3                7194.03            9689.055          
+3                3475.124           9751.244          
 SC1              -3220.544          7497.777          
 SC1              -3220.544          7497.777          
 SC1              -3342.002          7052.433          
@@ -172,14 +181,8 @@ SC1              -3402.731          4785.226
 SC1              1050.711           4724.497          
 SC1              1070.954           7457.291          
 SC1              -3301.516          7477.534          
-3                3500.000           9751.244          
-3                3313.433           7649.254          
-3                7144.279           7562.189          
-3                7194.030           9689.055          
-3                3475.124           9751.244          
 
 [SYMBOLS]
 ;;Gage           X-Coord            Y-Coord           
 ;;-------------- ------------------ ------------------
-1                2828.467           9598.540          
-
+1                2828.467         9598.54         

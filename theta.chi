@@ -2,51 +2,85 @@
 #Please do not edit
 [Project Summary]
 Compute Time=n/a
-Routing Error=n/a
-Runoff Error=n/a
+Routing Error=0.373
+Runoff Error=-0.003
 [GIS]
-VisibleExtent.XMax=9911.53917753304
-VisibleExtent.XMin=-4737.62817753304
-VisibleExtent.YMax=10184.1227726872
-VisibleExtent.YMin=1519.67622731278
+VisibleExtent.XMax=13684.5350190223
+VisibleExtent.XMin=-8977.58224034103
+VisibleExtent.YMax=11899.0063821542
+VisibleExtent.YMin=-1504.80687490828
 [Layers]
-layer1=Outlets.shp
-layer2=Weirs.shp
-layer3=Orifices.shp
-layer4=Pumps.shp
-layer5=Conduits.shp
-layer6=Storages.shp
-layer7=Dividers.shp
-layer8=Outfalls.shp
-layer9=Junctions.shp
+layer0=Outlets.shp
+layer1=Weirs.shp
+layer2=Orifices.shp
+layer3=Pumps.shp
+layer4=Conduits.shp
+layer5=Storages.shp
+layer6=Dividers.shp
+layer7=Outfalls.shp
+layer8=Junctions.shp
+layer9=Subcatchments.shp
 [General]
 Auto-Length=False
 Version=2
 Pathway Priority=0
-Last Access=04/20/2021 1:52:44 PM
-Last Access Shape=04/20/2021 2:09:44 PM
+Last Access=04/23/2021 8:02:46 PM
+Last Access Shape=04/23/2021 9:48:10 AM
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
-Profile Groups=
-Table Groups=
-Graph Groups=
-Detail Scenario=nComboBox1
+Profile Groups=	<unassigned>
+Table Groups=	<unassigned>
+Graph Groups=	<unassigned>
+Detail Scenario=theta
 Detail Bookmark=Top of File
 Detail Style=Full
-Status Scenario=nComboBox1
+Status Scenario=theta
 Status Bookmark=Top of File
 Status Style=Full
+Last Report Date=04/23/2021 7:44:25 PM
+Package Path=C:\Users\Daniel\Desktop\theta.pcz
 [Labels]
 WEIR_Coeff=3.33
 [Graph]
 Plotting Position=Gringorten
 [Defaults]
 SUBCATCH_FLOWLENGTH=0
+[Design Storm Scenarios]
+Destination folder=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+Duration option=1
+Fixed Hrs=24
+Storm Hrs=0
+Destination folder2=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+Event Group=All
+Antecedent Days=0
+Event Option=0
+Maximum Days 1=0
+Maximum Days 2=0
+Use Days 1=False
+Use Days 2=False
 [Authors]
-Author0=dcl3nd@virginia.edu,44306.5901031366
+Author0=dcl3nd@virginia.edu,44309.8352558449
 
 [Animation]
 Hide non_SWMM5 layers=False
+Subcat Fn=
+Subcat Scheme=GR_One
+Subcat Thresh=
+Nodes Fn=
+Nodes Scheme=GR_One
+Nodes Size=False
+Nodes Thresh=
+Links Fn=
+Links Scheme=GR_One
+Links Size=False
+Links Thresh=
+Animate Depth=False
+2D Scheme=LBR_Two
+2D Thresh=0
+Animate Vector=False
+Vector Scheme=GR_One
+Vector Thresh=0
+Vector Size=2
 [Map Options]
 Arrow Style=Filled
 Include 2D links=False
@@ -55,6 +89,62 @@ Draw Transect=False
 Transect Color=-16744448
 Show POI=False
 Flooding Analysis=False
+[Map Legend]
+layer0=<Layer Name="Subcatchments" Caption="Subcatchments" Visible="True" />
+layer1=<Layer Name="Junctions" Caption="Junctions" Visible="True" />
+layer2=<Layer Name="Outfalls" Caption="Outfalls" Visible="True" />
+layer3=<Layer Name="Dividers" Caption="Dividers" Visible="True" />
+layer4=<Layer Name="Storages" Caption="Storages" Visible="True" />
+layer5=<Layer Name="Conduits" Caption="Conduits" Visible="True" />
+layer6=<Section Name="Visible" Caption="Visible" Visible="True" />
+layer7=<Section Name="Visible" Caption="Visible" Visible="True" />
+layer8=<Layer Name="Pumps" Caption="Pumps" Visible="True" />
+layer9=<Layer Name="Orifices" Caption="Orifices" Visible="True" />
+layer10=<Layer Name="Weirs" Caption="Weirs" Visible="True" />
+layer11=<Layer Name="Outlets" Caption="Outlets" Visible="True" />
+[Locations]
+0=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+1=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+2=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+3=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+4=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+5=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+6=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+7=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+8=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+9=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+10=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+11=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+12=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+13=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+14=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+15=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+16=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+17=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+18=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+19=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+20=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+21=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+22=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+23=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+24=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+25=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+26=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+27=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+28=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+29=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+30=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+31=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+32=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+33=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+34=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+35=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+36=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+37=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+38=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+39=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+40=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+41=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
 [Flood Analysis]
 Override FVA=True
 Length=200

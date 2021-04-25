@@ -116,10 +116,7 @@ plt.tight_layout()
 plt.savefig('plots/test.png', dpi = 300, transparent = False)
 plt.show()
 
-#%% work - blank class to test env creation
-class test:
-    def __init__(self):
-        pass
+
 #%% environment class pasted and modified from pystorm
 import numpy as np
 from pyswmm.simulation import Simulation
@@ -168,6 +165,7 @@ class environment:
             "flow": self._getLinkFlow,
             "flooding": self._getNodeFlooding,
             "inflow": self._getNodeInflow,
+            "setting": self._getValvePosition # orifice setting
         }
 
     def _state(self):
@@ -285,6 +283,44 @@ class environment:
 
     def _getLinkFlow(self, ID):
         return self.sim._model.getLinkResult(ID, tkai.LinkResults.newFlow.value)
+    
+#%% scenario class
+import abc
+import numpy as np
+from pystorms.utilities import perf_metrics
+
+
+# Create a abstract class to force scenario class definition
+class scenario(abc.ABC):
+    @abc.abstractmethod
+    # Specific to the scenario
+    def step(self, actions=None, log=True):
+        pass
+
+    def _logger(self):
+        for attribute in self.data_log.keys():
+            if attribute not in ["performance_measure", "simulation_time"]:
+                for element in self.data_log[attribute].keys():
+                    self.data_log[attribute][element].append(
+                        self.env.methods[attribute](element)
+                    )
+
+    def state(self):
+        return self.env._state()
+
+    def performance(self, metric="cumulative"):
+        return perf_metrics(self.data_log["performance_measure"], metric)
+
+    def save(self, path=None):
+        if path is None:
+            path = "{0}/data_{1}.npy".format("./", self.config["name"])
+        return np.save(path, self.data_log)
+
+
+#%% work - blank class to test env creation
+class test():
+    def balh(self):
+        pass
 #%% pasted scenario theta class creation from pystorm
 #from pystorms.environment import environment
 #from pystorms.networks import load_network
@@ -293,7 +329,12 @@ class environment:
 #from pystorms.utilities import threshold
 import yaml
 
-class swmm_env:
+model_name = 'theta'
+threshold = 2
+scaling = 1
+
+
+class swmm_env(scenario):
     """
     Model name is the model .inp name WITHOUT the .inp extension
     """
@@ -305,14 +346,36 @@ class swmm_env:
         self.threshold = threshold
 
         # Create the environment based on the physical parameters
-        self.env = environment(self.config, ctrl=True)
+        self.env = environment(self.config)
 
         # Create an object for storing the data points
-        self.data_log = {"performance_measure": [], "flow": {}, "flooding": {}}
+        self.data_log = {"rewards": [], "flow": {}, "flooding": {},
+                         'depthN':{}, 'setting':{}}
 
         # Data logger for storing _performance data
         for ID, attribute in self.config["performance_targets"]:
             self.data_log[attribute][ID] = []
+            
+        for ID, attribute in self.config["states"]:
+            self.data_log[attribute][ID] = []
+            
+    
+#        print('succesfully initiated class')
+#        print(self.data_log)
+            
+    def logger(self):
+        for attribute in self.data_log.keys():
+#            print('----')
+#            print(attribute)
+            if attribute not in ["rewards", "simulation_time"]:
+#                print('triggered if...')
+#                print(self.data_log[attribute])
+                for element in self.data_log[attribute].keys():
+#                    print(element)
+                    self.data_log[attribute][element].append(
+                        self.env.methods[attribute](element)
+                        )
+
 
     def step(self, actions=None, log=True):
         # Implement the actions and take a step forward
@@ -320,30 +383,73 @@ class swmm_env:
 
         # Log the flows in the networks
         if log:
-            self._logger()
+            self.logger()
 
         # Estimate the performance
-        __performance = 0.0
+        reward = 0.0
 
         for ID, attribute in self.config["performance_targets"]:
             if attribute == "flooding":
                 __flood = self.env.methods[attribute](ID)
                 if __flood > 0.0:
-                    __performance += 10 ** 6
+                    reward += 10 ** 6 * -1
             if attribute == "flow":
                 __flow = self.env.methods[attribute](ID)
-                __performance = threshold(
-                    value=__flow, target=self.threshold, scaling=10.0
-                )
+#                reward = threshold(
+#                    value=__flow, target=self.threshold, scaling=10.0
+#                )
+                reward = 0.0
+                if __flow <= threshold:
+                    reward += 0.0
+                else:
+                    reward += (__flow - threshold) * scaling * -1
 
         # Record the _performance
-        self.data_log["performance_measure"].append(__performance)
+        self.data_log["rewards"].append(reward)
 
         # Terminate the simulation
         if done:
             self.env.terminate()
 
         return done
+
+
+#%% testing out environment
+import pandas as pd
+import matplotlib.pyplot as plt
+test_env = swmm_env(model_name = 'theta', threshold = 2)
+# https://pyswmm.readthedocs.io/en/stable/_modules/toolkitapi.html?highlight=RouteStep
+
+route_step = test_env.env.sim._model.getSimAnalysisSetting(tkai.SimulationParameters.RouteStep.value)
+
+done = False
+while not done:
+    done = test_env.step(actions = np.asarray([1, 1]))
+
+test_env.data_log.keys()
+
+# create pandas dataframe to house outputs
+key_ind = []
+id_names_ind = []
+df = pd.DataFrame()
+for key, val in test_env.data_log.items():
+#    if key == 'rewards':
+#        continue
+    df_temp = pd.DataFrame(val)
+    idx = pd.MultiIndex.from_product([[key], list(df_temp.columns.values)])
+    df_temp = df_temp.T.set_index(idx).T
+    df = df.join(df_temp, how = 'right')
+
+
+idx = pd.IndexSlice
+midx = pd.MultiIndex.from_tuples(df.T.index.values, names = ['attribute', 'id'])
+df = df.T.set_index(midx).T
+df = df.set_index(df.index.values * route_step / 3600)
+df.index.rename('time_hrs', inplace = True)
+
+fig_name = '1_uncontrolled'
+plt_key_states(fig_name, df)
+# plotting
 
 
 #%% creating environment

@@ -19,6 +19,12 @@ states:
         - !!python/tuple
           - P2
           - depthN
+        - !!python/tuple
+          - "1"
+          - setting
+        - !!python/tuple
+          - "2"
+          - setting
 # Action space 
 action_space:
         - "1"

@@ -7,6 +7,7 @@ import abc
 #import numpy as np
 from pystorms.utilities import perf_metrics
 import yaml
+from tensorforce.environments import Environment
 
 def plt_key_states(fig_name, df, env):
     idx = pd.IndexSlice
@@ -14,44 +15,33 @@ def plt_key_states(fig_name, df, env):
     fig, axs = plt.subplots(5, 1, sharex = True,
                         figsize = (16, 9))
     
-    #ax_col = -1
     for att in df.T.index.levels[0]:
-    #    ax_col += 1
-    #    df.loc[:, idx[att, :]].plot(ax=axes[0, ax_col])
     
         if att == 'setting':
-    #        axs[0].plot(time_h, s1, label = 'P1')
-    #        axs[0].plot(time_h, s2, label = 'P2')
             df.loc[:, idx[att, :]].plot(ax=axs[0])
             axs[0].set(ylabel="Frac Open", title='')
             axs[0].legend()
         
         if att == 'depthN':
-    #        axs[1].plot(time_h, d1, label = 'P1')
-    #        axs[1].plot(time_h, d2, label = 'P2')
             df.loc[:, idx[att, :]].plot(ax=axs[1])
             axs[1].set(ylabel="Storage Depth (m)", title='')
             axs[1].legend()
     
         if att == 'flooding':
-    #        axs[2].plot(time_h, fld1, label = 'P1')
-    #        axs[2].plot(time_h, fld2, label = 'P2')
             df.loc[:, idx[att, :]].plot(ax=axs[2])
             axs[2].set(ylabel="Flood flow (cms)", title='')
             axs[2].legend()
     
         if att == 'flow':
-    #        axs[3].plot(time_h, f18, label = 'Link 8')
             df.loc[:, idx[att, :]].plot(ax=axs[3])
             axs[3].axhline(env.threshold, c = 'k', ls = '--', label = 'threshold')
             axs[3].set(ylabel="Flow (cms)", title='')
             axs[3].legend()
             
         if att == 'rewards':
-    #        axs[3].plot(time_h, f18, label = 'Link 8')
             df.loc[:, idx[att, :]].plot(ax=axs[4], legend = False)
             axs[4].set(xlabel='Time (h)', ylabel="Rewards", title='')
-    #        axs[4].legend()
+
     
     plt.tight_layout()
     plt.savefig('plots/' + fig_name + ' .png', dpi = 300, transparent = False)
@@ -130,13 +120,20 @@ class environment:
         r"""
         Query the stormwater network states based on the config file.
         """
-        state = []
+        state = []          
+        for _temp in self.config["performance_targets"]:
+            ID = _temp[0]
+            attribute = _temp[1]
+            state.append(self.methods[attribute](ID))
+            
         for _temp in self.config["states"]:
             ID = _temp[0]
             attribute = _temp[1]
             state.append(self.methods[attribute](ID))
 
         state = np.asarray(state)
+        
+        return state
 
 
     def step(self, actions=None):
@@ -158,9 +155,12 @@ class environment:
         done : boolean
             event termination indicator
         """
+        
         if actions is not None:
             # implement the actions
+#            print(actions)
             for asset, valve_position in zip(self.config["action_space"], actions):
+#                print(asset, valve_position)
                 self._setValvePosition(asset, valve_position)
 
         # take the step !
@@ -177,7 +177,9 @@ class environment:
         initial_state : array
             initial state in the network
         """
-        self.terminate()
+#        
+        self.end_and_close()
+#        self.sim.start()
 
         # Start the next simulation
         self.sim._model.swmm_open()
@@ -187,12 +189,13 @@ class environment:
         state = self._state()
         return state
 
-    def terminate(self):
+    def end_and_close(self):
         r"""
         Terminates the simulation
         """
         self.sim._model.swmm_end()
         self.sim._model.swmm_close()
+        pass
 
     def initial_state(self):
         r"""
@@ -321,6 +324,12 @@ class swmm_env(scenario):
 
     def step(self, actions=None, log=True):
         # Implement the actions and take a step forward
+        prev_actions = []
+        for asset in self.config["action_space"]:
+#                print(asset, valve_position)
+            prev_actions.append(self.env._getValvePosition(asset))
+            
+        
         done = self.env.step(actions)
 
         # Log the flows in the networks
@@ -328,19 +337,21 @@ class swmm_env(scenario):
             self.logger()
 
         # Estimate the performance
-        reward = 0.0
-
+#        print(actions)
+#        print(prev_actions)
+#        print((actions == prev_actions))
+        
+        reward = sum(actions == np.asarray(prev_actions)) - len(actions)
+#        print(reward)
+        
         for ID, attribute in self.config["performance_targets"]:
             if attribute == "flooding":
                 __flood = self.env.methods[attribute](ID)
                 if __flood > 0.0:
-                    reward += 10 ** 6 * -1
+                    reward += __flood * -1 * self.scaling
             if attribute == "flow":
                 __flow = self.env.methods[attribute](ID)
-#                reward = threshold(
-#                    value=__flow, target=self.threshold, scaling=10.0
-#                )
-                reward = 0.0
+
                 if __flow <= self.threshold:
                     reward += 0.0
                 else:
@@ -350,12 +361,64 @@ class swmm_env(scenario):
         self.data_log["rewards"].append(reward)
 
         # Terminate the simulation
-        if done:
-            self.env.terminate()
+#        if done:
+#            self.env.end_and_close()
 
-        return done  
-    
-    
+        return done, reward
+
+class custom_tensorflow_env(Environment):
+
+    def __init__(self, model_name, threshold, scaling):
+        super().__init__()
+        self.swmm_env = swmm_env(model_name, threshold, scaling)
+
+    def states(self):
+        state_count = 0 # include states and performance targets
+        for ID, attribute in self.swmm_env.config["performance_targets"]:
+            state_count += 1
+            
+        for ID, attribute in self.swmm_env.config["states"]:
+            state_count += 1
+        
+        return dict(type='float', shape=(state_count,))
+    # flood volume in P1 and P2
+    # depth in P1 and P2
+    # amount that P1 is open and amount that P2 is open
+    # link 8 flowrate
+
+    def actions(self):
+        action_count = 0
+        for ID in self.swmm_env.config["action_space"]:
+            action_count += 1
+        return dict(type='float', shape=(action_count,), min_value = 0, max_value = 1)
+
+    # Optional: should only be defined if environment has a natural fixed
+    # maximum episode length; otherwise specify maximum number of training
+    # timesteps via Environment.create(..., max_episode_timesteps=???)
+    def max_episode_timesteps(self):
+        return super().max_episode_timesteps()
+
+    # Optional additional steps to close environment
+    def close(self):
+        self.swmm_env.env.end_and_close()
+
+    def reset(self):
+#        state = np.random.random(size=(8,))
+        return self.swmm_env.env.reset()
+
+    def execute(self, actions):
+#        print('1')
+        prev_state = self.swmm_env.env._state()
+        
+        terminal, reward = self.swmm_env.step(actions)
+        if terminal:
+#            print('3')
+            next_state = prev_state
+        else:
+#            print('4')
+            next_state = self.swmm_env.env._state()
+#        print('5')
+        return next_state, terminal, reward
     
     
     

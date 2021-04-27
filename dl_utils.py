@@ -340,8 +340,19 @@ class swmm_env(scenario):
 #        print(actions)
 #        print(prev_actions)
 #        print((actions == prev_actions))
+        # add a negative reward for each adjustment
+#        print(prev_actions)
+#        print(actions)
+#        print(sum(actions == np.asarray(prev_actions)) - len(actions))
+        reward = 0 
+        for ac, prev_ac in zip(actions, prev_actions):
+            if abs(ac - prev_ac) > 0.01:
+                reward -= 0.5
         
-        reward = sum(actions == np.asarray(prev_actions)) - len(actions)
+#        print(reward)
+#        reward = sum(actions == np.asarray(prev_actions)) - len(actions)
+#        print(reward)
+        
 #        print(reward)
         
         for ID, attribute in self.config["performance_targets"]:
@@ -359,11 +370,13 @@ class swmm_env(scenario):
 
         # Record the _performance
         self.data_log["rewards"].append(reward)
-
+        
+#        print(reward)
+#        print('---')
         # Terminate the simulation
 #        if done:
 #            self.env.end_and_close()
-
+#        reward = 5000
         return done, reward
 
 class custom_tensorflow_env(Environment):

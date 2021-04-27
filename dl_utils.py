@@ -304,7 +304,7 @@ class swmm_env(scenario):
         for ID, attribute in self.config["states"]:
             self.data_log[attribute][ID] = []
             
-    
+        
 #        print('succesfully initiated class')
 #        print(self.data_log)
             

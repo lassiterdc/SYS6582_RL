@@ -44,8 +44,5 @@ theta.out
 theta.rpt
 theta/Orifices.dbf
 theta/Orifices.dbf
-*.out
-*.rpt
-*.dbf
-*.dbf
-*.dbf
+theta.out
+theta.rpt

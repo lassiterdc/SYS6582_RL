@@ -103,8 +103,13 @@
                            Precip      Runon       Evap      Infil     Runoff     Runoff     Runoff      Runoff   Runoff   Coeff
   Subcatchment                 mm         mm         mm         mm         mm         mm         mm    10^6 ltr      CMS
   ------------------------------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
   3                         16.20       0.00       0.00       8.11       4.02       4.04       8.07        8.07     0.35   0.498
   SC1                       16.20       0.00       0.00       8.11       4.02       4.04       8.07        8.07     0.35   0.498
+=======
+  SC1                       16.20       0.00       0.00       8.11       4.04       4.04       8.08        8.08     0.35   0.499
+  3                         16.20       0.00       0.00       8.11       4.04       4.04       8.08        8.08     0.35   0.499
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
   
   
   ******************
@@ -220,6 +225,11 @@
   No conduits were surcharged.
   
 
+<<<<<<< HEAD
   Analysis begun on:  Tue Apr 27 12:35:14 2021
   Analysis ended on:  Tue Apr 27 12:35:14 2021
+=======
+  Analysis begun on:  Tue Apr 20 15:22:49 2021
+  Analysis ended on:  Tue Apr 20 15:22:49 2021
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
   Total elapsed time: < 1 sec

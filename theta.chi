@@ -1,6 +1,7 @@
 #PCSWMM project file
 #Please do not edit
 [Project Summary]
+<<<<<<< HEAD
 Compute Time= < 1 sec
 Routing Error=0.373
 Runoff Error=-0.003
@@ -9,79 +10,69 @@ VisibleExtent.XMax=13684.5350190223
 VisibleExtent.XMin=-8977.58224034105
 VisibleExtent.YMax=11899.0063821542
 VisibleExtent.YMin=-1504.80687490828
+=======
+Compute Time=n/a
+Routing Error=n/a
+Runoff Error=n/a
+[GIS]
+VisibleExtent.XMax=9911.53917753304
+VisibleExtent.XMin=-4737.62817753304
+VisibleExtent.YMax=10184.1227726872
+VisibleExtent.YMin=1519.67622731278
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
 [Layers]
-layer0=Outlets.shp
-layer1=Weirs.shp
-layer2=Orifices.shp
-layer3=Pumps.shp
-layer4=Conduits.shp
-layer5=Storages.shp
-layer6=Dividers.shp
-layer7=Outfalls.shp
-layer8=Junctions.shp
-layer9=Subcatchments.shp
+layer1=Outlets.shp
+layer2=Weirs.shp
+layer3=Orifices.shp
+layer4=Pumps.shp
+layer5=Conduits.shp
+layer6=Storages.shp
+layer7=Dividers.shp
+layer8=Outfalls.shp
+layer9=Junctions.shp
 [General]
 Auto-Length=False
 Version=2
 Pathway Priority=0
+<<<<<<< HEAD
 Last Access=04/27/2021 8:23:17 AM
 Last Access Shape=04/27/2021 12:35:14 PM
+=======
+Last Access=04/20/2021 1:52:44 PM
+Last Access Shape=04/20/2021 2:09:44 PM
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
-Profile Groups=	<unassigned>
-Table Groups=	<unassigned>
-Graph Groups=	<unassigned>
-Detail Scenario=theta
+Profile Groups=
+Table Groups=
+Graph Groups=
+Detail Scenario=nComboBox1
 Detail Bookmark=Top of File
 Detail Style=Full
-Status Scenario=theta
+Status Scenario=nComboBox1
 Status Bookmark=Top of File
 Status Style=Full
+<<<<<<< HEAD
 Last Report Date=04/27/2021 12:35:14 PM
 Package Path=C:\Users\Daniel\Desktop\theta.pcz
 Run Incomplete=False
+=======
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
 [Labels]
 WEIR_Coeff=3.33
 [Graph]
 Plotting Position=Gringorten
 [Defaults]
 SUBCATCH_FLOWLENGTH=0
-[Design Storm Scenarios]
-Destination folder=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
-Duration option=1
-Fixed Hrs=24
-Storm Hrs=0
-Destination folder2=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
-Event Group=All
-Antecedent Days=0
-Event Option=0
-Maximum Days 1=0
-Maximum Days 2=0
-Use Days 1=False
-Use Days 2=False
 [Authors]
+<<<<<<< HEAD
 Author0=dcl3nd@virginia.edu,44313.3494992361
+=======
+Author0=dcl3nd@virginia.edu,44306.5901031366
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
 
 [Animation]
 Hide non_SWMM5 layers=False
-Subcat Fn=
-Subcat Scheme=GR_One
-Subcat Thresh=
-Nodes Fn=
-Nodes Scheme=GR_One
-Nodes Size=False
-Nodes Thresh=
-Links Fn=
-Links Scheme=GR_One
-Links Size=False
-Links Thresh=
-Animate Depth=False
-2D Scheme=LBR_Two
-2D Thresh=0
-Animate Vector=False
-Vector Scheme=GR_One
-Vector Thresh=0
-Vector Size=2
 [Map Options]
 Arrow Style=Filled
 Include 2D links=False
@@ -90,6 +81,7 @@ Draw Transect=False
 Transect Color=-16744448
 Show POI=False
 Flooding Analysis=False
+<<<<<<< HEAD
 [Map Legend]
 layer0=<Layer Name="Subcatchments" Caption="Subcatchments" Visible="True" />
 layer1=<Layer Name="Junctions" Caption="Junctions" Visible="True" />
@@ -147,6 +139,8 @@ layer12=<Layer Name="Outlets" Caption="Outlets" Visible="True" />
 39=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
 40=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
 41=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
+=======
+>>>>>>> c844d4a77593818cb7243153e611d1f69f9844d2
 [Flood Analysis]
 Override FVA=True
 Length=200

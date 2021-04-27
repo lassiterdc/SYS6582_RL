@@ -115,9 +115,6 @@ class SWMM_env(Environment):
 # J: I think this should consider the 6 states referenced in the self.state line above. 
     # def states(self):
     #     return dict(type='float', shape=(6,))
-    
-    def states(self):
-        return dict(type='float', shape=(7,))
 
 # J: would the actions be the position of the valves at P1 and P2? Would we need to figure
 # J: out how to program the lid for this section, given two valve positions?
@@ -126,7 +123,7 @@ class SWMM_env(Environment):
         """Action 0 means no heater, temperature approaches 0.0.  Action 1 means
         the heater is on and the room temperature approaches 1.0.
         """
-        return dict(type='float', num_values=2)
+        return dict(type='int', num_values=2)
 
 
     #(original comment) Optional, should only be defined if environment has a natural maximum

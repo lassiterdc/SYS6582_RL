@@ -1,0 +1,13 @@
+#PCSWMM calibration log file
+#Please do not edit
+[General]
+Realization Size=4
+[Attributes]
+0=Subcatchments,N Perv
+1=Subcatchments,Dstore Imperv
+2=Subcatchments,Dstore Perv
+3=Subcatchments,Max. Infil. Rate
+4=Subcatchments,Min. Infil. Rate
+5=Subcatchments,Decay Constant
+6=Subcatchments,Drying Time
+7=Conduits,Roughness

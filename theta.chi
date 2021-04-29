@@ -1,14 +1,14 @@
 #PCSWMM project file
 #Please do not edit
 [Project Summary]
-Compute Time= < 1 sec
-Routing Error=0.373
-Runoff Error=-0.003
+Compute Time=n/a
+Routing Error=n/a
+Runoff Error=n/a
 [GIS]
 VisibleExtent.XMax=13684.5350190223
-VisibleExtent.XMin=-8977.58224034105
-VisibleExtent.YMax=11899.0063821542
-VisibleExtent.YMin=-1504.80687490828
+VisibleExtent.XMin=-8977.58224034108
+VisibleExtent.YMax=12039.7832826734
+VisibleExtent.YMin=-1645.58377542743
 [Layers]
 layer0=Outlets.shp
 layer1=Weirs.shp
@@ -24,22 +24,21 @@ layer9=Subcatchments.shp
 Auto-Length=False
 Version=2
 Pathway Priority=0
-Last Access=04/27/2021 8:23:17 AM
-Last Access Shape=04/27/2021 12:35:14 PM
+Last Access=04/28/2021 10:04:52 PM
+Last Access Shape=04/28/2021 10:04:52 PM
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
 Profile Groups=	<unassigned>
 Table Groups=	<unassigned>
 Graph Groups=	<unassigned>
-Detail Scenario=theta
+Detail Scenario=
 Detail Bookmark=Top of File
 Detail Style=Full
-Status Scenario=theta
+Status Scenario=
 Status Bookmark=Top of File
 Status Style=Full
-Last Report Date=04/27/2021 12:35:14 PM
+Last Report Date=04/27/2021 3:16:25 PM
 Package Path=C:\Users\Daniel\Desktop\theta.pcz
-Run Incomplete=False
 [Labels]
 WEIR_Coeff=3.33
 [Graph]
@@ -60,7 +59,7 @@ Maximum Days 2=0
 Use Days 1=False
 Use Days 2=False
 [Authors]
-Author0=dcl3nd@virginia.edu,44313.3494992361
+Author0=dcl3nd@virginia.edu,44314.9200522454
 
 [Animation]
 Hide non_SWMM5 layers=False
@@ -207,3 +206,9 @@ Include POI=False
 
 [UN_Orifices]
 
+[Scenarios]
+"Scenarios0"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta.inp",False,False,theta
+"Scenarios1"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_train.inp",False,True,theta_train
+"Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,False,theta_undvlpd_test
+"Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,True,theta_undvlpd_train
+"Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,False,theta_test

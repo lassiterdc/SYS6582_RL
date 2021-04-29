@@ -1,0 +1,26 @@
+# Configuration file for scenario theta 
+#p1_setting.append(sim._model.getLinkResult('1', tkai.LinkResults.setting.value))
+#p2_setting.append(sim._model.getLinkResult('2', tkai.LinkResults.setting.value))
+#
+#p1_depth.append(p1.depth)
+#p2_depth.append(p2.depth)
+#
+#p1_fld.append(p1.flooding)
+#p2_fld.append(p1.flooding)
+#
+#l8_flow.append(l8.flow)
+# name of scearnio 
+name: theta_baseline
+# state definitions
+states:
+        - !!python/tuple
+          - "8"
+          - flow
+## Action space 
+#action_space:
+#        - 
+#        - 
+## Performance Targets
+#performance_targets:
+#        - 
+

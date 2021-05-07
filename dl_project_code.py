@@ -17,8 +17,8 @@ import time
 
 # environment hyperparameters
 threshold = 1.75
-scaling = 4
-action_penalty = 0
+scaling = 1
+action_penalty = 0 # anything other than 0 will just add to penalty if threshold is exceeded. It's already penalized.
 advance_seconds = 15 * 60 # how often to take action and evaluate controls
 
 # agent hyperparameters
@@ -32,7 +32,7 @@ summarizer = dict(directory='_summaries', summaries = 'all')
 saver = dict(directory = '_model', frequency = 10, unit = "episodes")
 
 # runner parameters
-num_episodes = 50
+num_episodes = 10
 
 # timing
 start_time = time.time()
@@ -49,24 +49,24 @@ while not done:
 
 baseline_df = dl_utils.create_df_of_outputs(baseline_env, route_step, set_idx_to_hours = False)
 #%% testing out environment
-model_name = 'theta_train'
-config_name = 'theta'
-
-ucntrld_env = dl_utils.swmm_env(model_name = model_name, config_name = config_name,
-                                threshold = threshold, scaling = scaling,
-                                action_penalty = action_penalty,
-                                baseline_df = baseline_df.copy(),
-                                advance_seconds = advance_seconds)
-
-route_step = ucntrld_env.env.sim._model.getSimAnalysisSetting(tkai.SimulationParameters.RouteStep.value)
-done = False
-while not done:
-    done, reward = ucntrld_env.step(actions = [1, 1])
-
-fig_name = '1_uncontrolled_train'
-
-df = dl_utils.create_df_of_outputs(ucntrld_env, route_step)
-dl_utils.plt_key_states(fig_name, df, ucntrld_env)
+#model_name = 'theta_train'
+#config_name = 'theta'
+#
+#ucntrld_env = dl_utils.swmm_env(model_name = model_name, config_name = config_name,
+#                                threshold = threshold, scaling = scaling,
+#                                action_penalty = action_penalty,
+#                                baseline_df = baseline_df.copy(),
+#                                advance_seconds = advance_seconds)
+#
+#route_step = ucntrld_env.env.sim._model.getSimAnalysisSetting(tkai.SimulationParameters.RouteStep.value)
+#done = False
+#while not done:
+#    done, reward = ucntrld_env.step(actions = [1, 1])
+#
+#fig_name = '1_uncontrolled_train'
+#
+#df = dl_utils.create_df_of_outputs(ucntrld_env, route_step)
+#dl_utils.plt_key_states(fig_name, df, ucntrld_env)
 
 #%% training set up 
 model_name = 'theta_train'
@@ -101,7 +101,7 @@ runner = Runner(
 )
 runner.run(num_episodes=num_episodes)
 
-t_ag.save(directory='model-numpy', format='numpy', append='episodes')
+t_ag.save(directory='_model-numpy', format='numpy', append='episodes')
 
 t_ag.close()
 tr_env.close()

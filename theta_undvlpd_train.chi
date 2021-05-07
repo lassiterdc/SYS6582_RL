@@ -1,14 +1,14 @@
 #PCSWMM project file
 #Please do not edit
 [Project Summary]
-Compute Time= < 1 sec
-Routing Error=-1.566
-Runoff Error=-0.001
+Compute Time=1 second
+Routing Error=0.984
+Runoff Error=0
 [GIS]
-VisibleExtent.XMax=15596.2862236399
-VisibleExtent.XMin=-5473.92477596135
-VisibleExtent.YMax=11581.8415275337
-VisibleExtent.YMin=-880.417417352399
+VisibleExtent.XMax=15536.9891945604
+VisibleExtent.XMin=-5533.22180504093
+VisibleExtent.YMax=11712.7295184421
+VisibleExtent.YMin=-1011.30540826085
 [Layers]
 layer0=Outlets.shp
 layer1=Weirs.shp
@@ -24,8 +24,8 @@ layer9=Subcatchments.shp
 Auto-Length=False
 Version=2
 Pathway Priority=0
-Last Access=04/29/2021 12:50:54 AM
-Last Access Shape=04/29/2021 12:51:40 AM
+Last Access=05/07/2021 12:43:59 PM
+Last Access Shape=05/07/2021 12:43:59 PM
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
 Profile Groups=	<unassigned>
@@ -37,15 +37,11 @@ Detail Style=Full
 Status Scenario=theta
 Status Bookmark=Top of File
 Status Style=Full
-Last Report Date=04/29/2021 12:51:39 AM
+Last Report Date=05/07/2021 1:05:34 PM
 Package Path=C:\Users\Daniel\Desktop\theta_undvlpd_train.pcz
-Run Incomplete=False
 [Labels]
 WEIR_Coeff=3.33
 [Graph]
-Path1=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\rainfall_vol_mm.tsb
-Path2=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\processed_rain_data\train_8days.tsb
-Path3=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\processed_rain_data\train_15days.tsb
 Plotting Position=Gringorten
 [Defaults]
 SUBCATCH_FLOWLENGTH=0
@@ -63,7 +59,7 @@ Maximum Days 2=0
 Use Days 1=False
 Use Days 2=False
 [Authors]
-Author0=dcl3nd@virginia.edu,44315.0353505671
+Author0=dcl3nd@virginia.edu,44323.5305475926
 
 [Animation]
 Hide non_SWMM5 layers=False
@@ -221,3 +217,4 @@ SC1             	100	100	100	100	0
 "Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,False,theta_undvlpd_test
 "Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,True,theta_undvlpd_train
 "Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,False,theta_test
+"Scenarios5"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\_archive\theta_train.inp",False,False,theta_train

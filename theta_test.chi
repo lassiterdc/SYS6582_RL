@@ -8,7 +8,7 @@ Runoff Error=-0.005
 VisibleExtent.XMax=15075.5469096629
 VisibleExtent.XMin=-5561.17933425492
 VisibleExtent.YMax=11516.0294191559
-VisibleExtent.YMin=-946.229525730081
+VisibleExtent.YMin=-946.229525730103
 [Layers]
 layer0=Outlets.shp
 layer1=Weirs.shp
@@ -24,8 +24,8 @@ layer9=Subcatchments.shp
 Auto-Length=False
 Version=2
 Pathway Priority=0
-Last Access=04/29/2021 12:00:19 AM
-Last Access Shape=04/28/2021 5:47:46 PM
+Last Access=05/07/2021 12:43:26 PM
+Last Access Shape=05/07/2021 12:43:25 PM
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
 Profile Groups=	<unassigned>
@@ -60,7 +60,7 @@ Maximum Days 2=0
 Use Days 1=False
 Use Days 2=False
 [Authors]
-Author0=dcl3nd@virginia.edu,44315.0002131597
+Author0=dcl3nd@virginia.edu,44323.5301640394
 
 [Animation]
 Hide non_SWMM5 layers=False
@@ -213,3 +213,4 @@ Include POI=False
 "Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,False,theta_undvlpd_test
 "Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,True,theta_undvlpd_train
 "Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,False,theta_test
+"Scenarios5"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\_archive\theta_train.inp",False,False,theta_train

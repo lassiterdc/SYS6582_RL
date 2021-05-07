@@ -9,7 +9,8 @@
 #p2_fld.append(p1.flooding)
 #
 #l8_flow.append(l8.flow)
-# name of scearnio 
+# name of scearnio
+
 name: theta
 # state definitions
 states:
@@ -25,10 +26,12 @@ states:
         - !!python/tuple
           - "2"
           - setting
+
 # Action space 
 action_space:
         - "1"
         - "2"
+
 # Performance Targets
 performance_targets:
         - !!python/tuple
@@ -40,3 +43,25 @@ performance_targets:
         - !!python/tuple
           - P2
           - flooding
+
+# these variables absolutely must be included in either the states or the performance targets
+lagged_state_variables:
+        - !!python/tuple
+          - "8"
+          - flow
+        - !!python/tuple 
+          - P1
+          - depthN
+        - !!python/tuple
+          - P2
+          - depthN
+
+
+lags_hrs:
+        - 1
+        - 2
+        - 4
+        - 8
+        - 16
+        - 24
+        - 48

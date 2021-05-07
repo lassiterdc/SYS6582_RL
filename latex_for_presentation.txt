@@ -1,0 +1,4 @@
+r = \begin{cases} 
+(Q_b - Q_s)^2 & Q_b \le T \\
+(Q_b - T)^2 & Q_b > T
+\end{cases}

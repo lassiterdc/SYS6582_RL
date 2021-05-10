@@ -1,14 +1,14 @@
 #PCSWMM project file
 #Please do not edit
 [Project Summary]
-Compute Time=n/a
-Routing Error=-0.01
-Runoff Error=-0.005
+Compute Time= 00:00:03
+Routing Error=0
+Runoff Error=0
 [GIS]
-VisibleExtent.XMax=15075.5469096629
-VisibleExtent.XMin=-5561.17933425492
-VisibleExtent.YMax=11516.0294191559
-VisibleExtent.YMin=-946.229525730103
+VisibleExtent.XMax=15977.3186522337
+VisibleExtent.XMin=-5535.4826671403
+VisibleExtent.YMax=11091.3073830183
+VisibleExtent.YMin=-1632.72754368466
 [Layers]
 layer0=Outlets.shp
 layer1=Weirs.shp
@@ -24,8 +24,8 @@ layer9=Subcatchments.shp
 Auto-Length=False
 Version=2
 Pathway Priority=0
-Last Access=05/07/2021 12:43:26 PM
-Last Access Shape=05/07/2021 12:43:25 PM
+Last Access=05/10/2021 1:29:30 PM
+Last Access Shape=05/10/2021 1:29:35 PM
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
 Profile Groups=	<unassigned>
@@ -37,12 +37,17 @@ Detail Style=Full
 Status Scenario=theta
 Status Bookmark=Top of File
 Status Style=Full
-Last Report Date=04/28/2021 5:56:37 PM
+Last Report Date=05/10/2021 1:29:34 PM
 Package Path=C:\Users\Daniel\Desktop\theta_test.pcz
+Run Incomplete=False
 [Labels]
 WEIR_Coeff=3.33
 [Graph]
 Path1=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\rainfall_vol_mm.tsb
+Path2=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\processed_rain_data\train_8days.tsb
+Path3=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\processed_rain_data\train_15days.tsb
+Path4=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\processed_rain_data\train_101days.tsb
+Path5=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\processed_rain_data\train_401days.tsb
 Plotting Position=Gringorten
 [Defaults]
 SUBCATCH_FLOWLENGTH=0
@@ -60,18 +65,15 @@ Maximum Days 2=0
 Use Days 1=False
 Use Days 2=False
 [Authors]
-Author0=dcl3nd@virginia.edu,44323.5301640394
+Author0=dcl3nd@virginia.edu,44326.5621548148
 
 [Animation]
 Hide non_SWMM5 layers=False
-Subcat Fn=
 Subcat Scheme=GR_One
 Subcat Thresh=0
-Nodes Fn=
 Nodes Scheme=GR_One
 Nodes Size=False
 Nodes Thresh=0
-Links Fn=
 Links Scheme=GR_One
 Links Size=False
 Links Thresh=0
@@ -93,17 +95,19 @@ Flooding Analysis=False
 [Map Legend]
 layer0=<Layer Name="Subcatchments" Caption="Subcatchments" Visible="True" />
 layer1=<Layer Name="Junctions" Caption="Junctions" Visible="True" />
-layer2=<Layer Name="Outfalls" Caption="Outfalls" Visible="True" />
-layer3=<Layer Name="Dividers" Caption="Dividers" Visible="True" />
-layer4=<Layer Name="Storages" Caption="Storages" Visible="True" />
-layer5=<Layer Name="Conduits" Caption="Conduits" Visible="True" />
-layer6=<Section Name="Visible" Caption="Visible" Visible="True" />
-layer7=<Section Name="Visible" Caption="Visible" Visible="True" />
+layer2=<Section Name="Visible" Caption="Visible" Visible="True" />
+layer3=<Section Name="Flooded" Caption="Flooded" Visible="True" />
+layer4=<Layer Name="Outfalls" Caption="Outfalls" Visible="True" />
+layer5=<Layer Name="Dividers" Caption="Dividers" Visible="True" />
+layer6=<Layer Name="Storages" Caption="Storages" Visible="True" />
+layer7=<Layer Name="Conduits" Caption="Conduits" Visible="True" />
 layer8=<Section Name="Visible" Caption="Visible" Visible="True" />
-layer9=<Layer Name="Pumps" Caption="Pumps" Visible="True" />
-layer10=<Layer Name="Orifices" Caption="Orifices" Visible="True" />
-layer11=<Layer Name="Weirs" Caption="Weirs" Visible="True" />
-layer12=<Layer Name="Outlets" Caption="Outlets" Visible="True" />
+layer9=<Section Name="Visible" Caption="Visible" Visible="True" />
+layer10=<Section Name="Visible" Caption="Visible" Visible="True" />
+layer11=<Layer Name="Pumps" Caption="Pumps" Visible="True" />
+layer12=<Layer Name="Orifices" Caption="Orifices" Visible="True" />
+layer13=<Layer Name="Weirs" Caption="Weirs" Visible="True" />
+layer14=<Layer Name="Outlets" Caption="Outlets" Visible="True" />
 [Locations]
 0=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
 1=C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\
@@ -209,8 +213,8 @@ Include POI=False
 
 [Scenarios]
 "Scenarios0"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta.inp",False,False,theta
-"Scenarios1"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_train.inp",False,True,theta_train
-"Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,False,theta_undvlpd_test
-"Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,True,theta_undvlpd_train
-"Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,False,theta_test
+"Scenarios1"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_train.inp",False,False,theta_train
+"Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,True,theta_undvlpd_test
+"Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,False,theta_undvlpd_train
+"Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,True,theta_test
 "Scenarios5"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\_archive\theta_train.inp",False,False,theta_train

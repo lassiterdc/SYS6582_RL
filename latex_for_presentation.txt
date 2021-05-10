@@ -1,4 +1,10 @@
+https://www.codecogs.com/latex/eqneditor.php
+
 r = \begin{cases} 
-(Q_b - Q_s)^2 & Q_b \le T \\
-(Q_b - T)^2 & Q_b > T
+-(Q_c - Q_b)^2 & Q_b \le T \\
+-(Q_c - T)^2 & Q_b > T
 \end{cases}
+
+Q_c = \text{ controlled environment flowrate}
+Q_b = \text{ baseline flowrate}
+T = \text{ threshold flow}

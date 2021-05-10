@@ -32,7 +32,8 @@ summarizer = dict(directory='_summaries', summaries = 'all')
 saver = dict(directory = '_model', frequency = 10, unit = "episodes")
 
 # runner parameters
-num_episodes = 10
+num_episodes = 5
+resume_from_checkpoint = True
 
 # timing
 start_time = time.time()
@@ -84,11 +85,14 @@ route_step = train_env.swmm_env.env.sim._model.getSimAnalysisSetting(tkai.Simula
 
 tr_env = Environment.create(environment = train_env)
 
-t_ag = Agent.create(agent = agent, environment = tr_env, 
-                    max_episode_timesteps = max_ep_tstep,
-                    update = update, optimizer = optimizer,
-                    objective = objective,
-                    reward_estimation = reward_estimation)
+if resume_from_checkpoint:
+    t_ag = Agent.load(directory='_model-numpy', format='numpy', filename = 'agent', environment = tr_env)
+else:
+    t_ag = Agent.create(agent = agent, environment = tr_env, 
+                        max_episode_timesteps = max_ep_tstep,
+                        update = update, optimizer = optimizer,
+                        objective = objective,
+                        reward_estimation = reward_estimation)
 #                    summarizer = summarizer,
 #                    saver = saver)
 

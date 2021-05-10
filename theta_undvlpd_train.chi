@@ -25,7 +25,7 @@ Auto-Length=False
 Version=2
 Pathway Priority=0
 Last Access=05/07/2021 12:43:59 PM
-Last Access Shape=05/07/2021 12:43:59 PM
+Last Access Shape=05/10/2021 1:29:48 PM
 PCSWMM.NET Version=7.3.3095
 SWMM5 Version=5.1.015
 Profile Groups=	<unassigned>
@@ -37,7 +37,7 @@ Detail Style=Full
 Status Scenario=theta
 Status Bookmark=Top of File
 Status Style=Full
-Last Report Date=05/07/2021 1:05:34 PM
+Last Report Date=05/07/2021 7:55:32 PM
 Package Path=C:\Users\Daniel\Desktop\theta_undvlpd_train.pcz
 [Labels]
 WEIR_Coeff=3.33
@@ -213,8 +213,8 @@ SC1             	100	100	100	100	0
 
 [Scenarios]
 "Scenarios0"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta.inp",False,False,theta
-"Scenarios1"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_train.inp",False,True,theta_train
-"Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,False,theta_undvlpd_test
-"Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,True,theta_undvlpd_train
-"Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,False,theta_test
+"Scenarios1"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_train.inp",False,False,theta_train
+"Scenarios2"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_test.inp",False,True,theta_undvlpd_test
+"Scenarios3"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_undvlpd_train.inp",False,False,theta_undvlpd_train
+"Scenarios4"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\SYS6582_RL\theta_test.inp",False,True,theta_test
 "Scenarios5"="C:\Users\Daniel\Dropbox\_GradSchool\Courses\SYS6582_RI\_archive\theta_train.inp",False,False,theta_train

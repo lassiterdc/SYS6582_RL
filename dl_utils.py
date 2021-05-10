@@ -487,7 +487,7 @@ class swmm_env(scenario):
             self.sim_day_counter += 1
             if self.sim_day_counter % 10 == 0:
                 print('Simulation days elapsed: ' + str(self.sim_day_counter))
-            
+        
 #        if done:
 #            print('In swmm_env, made it to last step of sim.')
         return done, reward

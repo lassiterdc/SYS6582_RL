@@ -96,3 +96,20 @@ for q in quants:
 #import time
 #end_time = time.time()
 #print('Time elapsed: ' + str(round((end_time - start_time)/60/60, 2)) + ' hours')
+#%% plotting uncontrolled scenario
+ucntrld_env = dl_utils.swmm_env(model_name = model_name, config_name = config_name,
+                                threshold = threshold, scaling = scaling,
+                                action_penalty = action_penalty,
+                                baseline_df = baseline_df.copy(),
+                                advance_seconds = advance_seconds)
+
+route_step = ucntrld_env.env.sim._model.getSimAnalysisSetting(tkai.SimulationParameters.RouteStep.value)
+
+done = False
+while not done:
+    done, reward = ucntrld_env.step(actions = [1, 1])
+
+fig_name = '1_uncontrolled_test'
+
+df = dl_utils.create_df_of_outputs(ucntrld_env, route_step)
+dl_utils.plt_key_states(fig_name, df, ucntrld_env)

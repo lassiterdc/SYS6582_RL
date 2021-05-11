@@ -361,7 +361,7 @@ class swmm_env(scenario):
     Model name is the model .inp name WITHOUT the .inp extension
     """
     def __init__(self, model_name, config_name, threshold, scaling, action_penalty = 0,
-                 baseline_df = None, advance_seconds = None):
+                 tolerance_from_baseline = 0.1, baseline_df = None, advance_seconds = None):
         # Network configuration
         self.config = yaml.load(open("config/" + config_name + ".yaml", "r"), yaml.FullLoader)
         self.config["swmm_input"] = model_name + '.inp'
@@ -370,6 +370,7 @@ class swmm_env(scenario):
         self.action_penalty = action_penalty
         self.advance_seconds = advance_seconds
         self.sim_day_counter = 0
+        self.tolerance = tolerance_from_baseline
 
         # Create the environment based on the physical parameters
         self.env = environment(self.config, advance_seconds = advance_seconds)
@@ -471,8 +472,16 @@ class swmm_env(scenario):
         
                     if flow_bsln > self.threshold: 
                         flow_bsln = self.threshold
-                        
-                    reward -= abs(flow_bsln - __flow) ** 2
+                    
+                    # if the flow is within tolerance, the reward is  
+                    # 1 over the exponentiated absolute percent difference
+                    # which is maximized at a percent difference of 0
+                    abs_perc_dif = abs(__flow/flow_bsln-1)
+                    if abs_perc_dif <= self.tolerance:
+                        reward += 1/np.exp(abs_perc_dif)
+                    # otherwise, the reward is the negative absolute difference
+                    else:
+                        reward -= abs(flow_bsln - __flow)
                     
                 if __flow <= self.threshold:
                     reward += 0.0
@@ -514,12 +523,14 @@ class swmm_env(scenario):
 class custom_tensorflow_env(Environment):
 
     def __init__(self, model_name, config_name, threshold, scaling = 1,
-                 action_penalty = 0, baseline_df = None, advance_seconds = None):
+                 action_penalty = 0, tolerance_from_baseline=0.1,
+                 baseline_df = None, advance_seconds = None):
         
         
         super().__init__()
         self.swmm_env = swmm_env(model_name, config_name, threshold, scaling,
-                                 action_penalty, baseline_df, advance_seconds)
+                                 action_penalty, tolerance_from_baseline,
+                                 baseline_df, advance_seconds)
         
         self.ep = 0
 #        print('starting episode ' + str(self.ep))

@@ -20,20 +20,30 @@ threshold = 1.75
 scaling = 1
 action_penalty = 0 # anything other than 0 will just add to penalty if threshold is exceeded. It's already penalized.
 advance_seconds = 15 * 60 # how often to take action and evaluate controls
+tolerance_from_baseline=0.1
 
 # agent hyperparameters
 agent = 'tensorforce'
+horizon = int(8 * 60 * 60 / advance_seconds) # time steps, 8 hours
 max_ep_tstep = None
 update = 64
 optimizer = dict(optimizer = "adam", learning_rate = 1e-3)
 objective = 'policy_gradient'
-reward_estimation = dict(horizon = 5)
+reward_estimation = dict(discount = 0.98, horizon = horizon)
 summarizer = dict(directory='_summaries', summaries = 'all')
 saver = dict(directory = '_model', frequency = 10, unit = "episodes")
+
 
 # runner parameters
 num_episodes = 5
 resume_from_checkpoint = True
+if resume_from_checkpoint:
+    starting_episode = 11
+    save_agent_directory = '_model-numpy_continued_from_ep_' + str(starting_episode)
+    
+else:
+    starting_episode = 0
+    save_agent_directory = '_model-numpy'
 
 # timing
 start_time = time.time()
@@ -78,6 +88,7 @@ train_env = dl_utils.custom_tensorflow_env(model_name = model_name,
                                            threshold = threshold, 
                                            scaling = scaling,
                                            action_penalty = action_penalty,
+                                           tolerance_from_baseline = tolerance_from_baseline,
                                            baseline_df = baseline_df.copy(),
                                            advance_seconds = advance_seconds)
 
@@ -87,6 +98,7 @@ tr_env = Environment.create(environment = train_env)
 
 if resume_from_checkpoint:
     t_ag = Agent.load(directory='_model-numpy', format='numpy', filename = 'agent', environment = tr_env)
+
 else:
     t_ag = Agent.create(agent = agent, environment = tr_env, 
                         max_episode_timesteps = max_ep_tstep,
@@ -105,7 +117,7 @@ runner = Runner(
 )
 runner.run(num_episodes=num_episodes)
 
-t_ag.save(directory='_model-numpy', format='numpy', append='episodes')
+t_ag.save(directory=save_agent_directory, format='numpy', append='episodes')
 
 t_ag.close()
 tr_env.close()
@@ -127,7 +139,7 @@ for q in quants:
     q_cnt += 1
     ep = np.quantile(eps, q, interpolation = 'nearest')
     df_temp = df.copy().loc[idx[ep, :], :]
-    fig_name = '2_training_' + str(ep) + '_episodes'
+    fig_name = '2_training_' + str(ep + starting_episode) + '_episodes'
     dl_utils.plt_key_states(fig_name, df_temp.droplevel('episode'), train_env.swmm_env)
 
 import time

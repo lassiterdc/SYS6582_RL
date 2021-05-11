@@ -54,10 +54,6 @@ route_step = test_env.swmm_env.env.sim._model.getSimAnalysisSetting(tkai.Simulat
 tst_env = Environment.create(environment = test_env)
 
 tst_ag = Agent.load(directory='_model-numpy', format='numpy', filename = 'agent', environment = tst_env)
-#                update = update, optimizer = optimizer,
-#                objective = objective,
-#                reward_estimation = reward_estimation)
-
 #%% testing
 from tensorforce.execution import Runner
 num_episodes=1
@@ -67,7 +63,6 @@ runner = Runner(
 )
 runner.run(num_episodes=num_episodes)
 
-#tst_ag.save(directory='_model-numpy', format='numpy', append='episodes')
 
 tst_ag.close()
 tst_env.close()
@@ -75,12 +70,12 @@ runner.close()
 
 df = dl_utils.create_df_of_outputs(test_env.swmm_env, route_step)
 
-# create multi-indexed df
+
 time = df.index
 df = df.set_index([('episode', 0), time])
 df.index.rename(['episode', 'time'], inplace = True)
 
-# plot all episodes overlapping
+
 idx = pd.IndexSlice
 quants = [0.1, .3 , .5, .7, .9, 1]
 eps = np.arange(1, num_episodes+1, 1)
@@ -93,9 +88,7 @@ for q in quants:
     fig_name = '2_testing_' + str(ep) + '_episodes'
     dl_utils.plt_key_states(fig_name, df_temp.droplevel('episode'), test_env.swmm_env)
 
-#import time
-#end_time = time.time()
-#print('Time elapsed: ' + str(round((end_time - start_time)/60/60, 2)) + ' hours')
+
 #%% plotting uncontrolled scenario
 ucntrld_env = dl_utils.swmm_env(model_name = model_name, config_name = config_name,
                                 threshold = threshold, scaling = scaling,

@@ -12,7 +12,7 @@ from tensorforce.environments import Environment
 def plt_key_states(fig_name, df, env):
     idx = pd.IndexSlice
     
-    fig, axs = plt.subplots(5, 1, sharex = True,
+    fig, axs = plt.subplots(4, 1, sharex = True,
                         figsize = (16, 9))
     
     for att in df.T.index.levels[0]:
@@ -27,28 +27,32 @@ def plt_key_states(fig_name, df, env):
             axs[1].set(ylabel="Storage Depth (m)", title='')
             axs[1].legend()
     
-        if att == 'flooding':
-            df.loc[:, idx[att, :]].plot(ax=axs[2])
-            axs[2].set(ylabel="Flood flow (cms)", title='')
-            axs[2].legend()
+#        if att == 'flooding':
+#            df.loc[:, idx[att, :]].plot(ax=axs[2])
+#            axs[2].set(ylabel="Flood flow (cms)", title='')
+#            axs[2].legend()
     
         if att == 'flow':
-            df.loc[:, idx[att, :]].plot(ax=axs[3])
-            axs[3].axhline(env.threshold, c = 'k', ls = '--', label = 'threshold')
-            axs[3].set(ylabel="Flow (cms)", title='')
-            axs[3].legend()
+            df.loc[:, idx[att, :]].plot(ax=axs[2])
+            if env.baseline:
+                env.baseline_df.loc[:, idx['baseline_flow', :]].plot(ax=axs[2],
+                                   color = 'aqua')
+            
+            axs[2].axhline(env.threshold, c = 'k', ls = '--', label = 'threshold')
+            axs[2].set(ylabel="Flow (cms)", title='')
+            axs[2].legend()
             
         if att == 'rewards':
-            df.loc[:, idx[att, :]].plot(ax=axs[4], legend = False)
-            axs[4].set(xlabel='Time (h)', ylabel="Rewards", title='')
+            df.loc[:, idx[att, :]].plot(ax=axs[3], legend = False)
+            axs[3].set(xlabel='Time (h)', ylabel="Rewards", title='')
 
     
     plt.tight_layout()
     plt.savefig('plots/' + fig_name + ' .png', dpi = 300, transparent = False)
-    plt.show()
+#    plt.show()
     
-    
-def create_df_of_outputs(env, route_step):
+
+def create_df_of_outputs(env, route_step, set_idx_to_hours = True):
     df = pd.DataFrame()
     for key, val in env.data_log.items():
         df_temp = pd.DataFrame(val)
@@ -56,11 +60,20 @@ def create_df_of_outputs(env, route_step):
         df_temp = df_temp.T.set_index(idx).T
         df = df.join(df_temp, how = 'right')
     
+    
     idx = pd.IndexSlice
     midx = pd.MultiIndex.from_tuples(df.T.index.values, names = ['attribute', 'id'])
     df = df.T.set_index(midx).T
-    df = df.set_index(df.index.values * route_step / 3600)
-    df.index.rename('time_hrs', inplace = True)
+    df.index.rename('step', inplace = True)
+    if set_idx_to_hours:
+        df = df.set_index(df.index.values * route_step / 3600)
+        df.index.rename('time_hrs', inplace = True)
+        
+    df = df.set_index(('time', 0), drop = True)
+    df.index.rename('time', inplace = True)
+    
+    if env.baseline:
+        env.baseline_df.rename(columns = {"flow":'baseline_flow'}, inplace = True)
     
     return df
 
@@ -99,10 +112,11 @@ class environment:
         closes the swmm simulaton and start a new one with the predefined config file.
     """
 
-    def __init__(self, config): # got rid of ctrl and binary thing
+    def __init__(self, config, advance_seconds = None): # got rid of ctrl and binary thing
         self.config = config
         self.sim = Simulation(self.config["swmm_input"])
         self.sim.start()
+        self.advance_seconds = advance_seconds
 
         # methods
         self.methods = {
@@ -130,6 +144,7 @@ class environment:
             ID = _temp[0]
             attribute = _temp[1]
             state.append(self.methods[attribute](ID))
+            
 
         state = np.asarray(state)
         
@@ -159,43 +174,64 @@ class environment:
         if actions is not None:
             # implement the actions
 #            print(actions)
+#            print(self.config)
+#            print(self.initial_state())
             for asset, valve_position in zip(self.config["action_space"], actions):
-#                print(asset, valve_position)
                 self._setValvePosition(asset, valve_position)
 
-        # take the step !
-        time = self.sim._model.swmm_step()
+        if self.advance_seconds is None:
+
+            time = self.sim._model.swmm_step()
+
+        else:
+            prev = self.sim._model.getCurrentSimulationTime()
+            time = self.sim._model.swmm_stride((self.advance_seconds))
+            elapsed = self.sim._model.getCurrentSimulationTime() - prev
+            while elapsed > np.timedelta64((self.advance_seconds)*2, 's'):
+                print('skipped ahead')
+                print(prev)
+                print(self.sim._model.getCurrentSimulationTime())
+                self.reset_sim()
+                prev = self.sim._model.getCurrentSimulationTime()
+                time = self.sim._model.swmm_stride((self.advance_seconds))
+                elapsed = self.sim._model.getCurrentSimulationTime() - prev
+            
+#        time = self.sim._model.swmm_step()
         done = False if time > 0 else True
+#        if done:
+#            print('Episode completed')
         return done
 
-    def reset(self):
-        r"""
-        Resets the simulation and returns the initial state
-
-        Returns
-        -------
-        initial_state : array
-            initial state in the network
-        """
-#        
-        self.end_and_close()
+#    def reset_sim(self):
+##        print('reset')
+#        r"""
+#        Resets the simulation and returns the initial state
+#
+#        Returns
+#        -------
+#        initial_state : array
+#            initial state in the network
+#        """
+##        self.end_and_close()
+##        self.sim._model.swmm_open()
+##        self.sim._model.swmm_start()
+#        self.sim.terminate_simulation()
+##        self.sim._model.swmm_end()
+#        self.sim.close()
 #        self.sim.start()
-
-        # Start the next simulation
-        self.sim._model.swmm_open()
-        self.sim._model.swmm_start()
-
-        # get the state
-        state = self._state()
-        return state
+#        
+#        state = self._state()
+#
+#        return state
 
     def end_and_close(self):
+#        print('end and close')
         r"""
         Terminates the simulation
         """
         self.sim._model.swmm_end()
         self.sim._model.swmm_close()
-        pass
+        
 
     def initial_state(self):
         r"""
@@ -278,24 +314,72 @@ class scenario(abc.ABC):
         return np.save(path, self.data_log)
     
 
+class swmm_baseline_env(scenario):
+    def __init__(self, baseline_model_name, baseline_config):
+        self.config = yaml.load(open("config/" + baseline_config + ".yaml", "r"), yaml.FullLoader)
+        self.config["swmm_input"] = baseline_model_name + '.inp'
+
+        try:
+            self.env = environment(self.config)
+        except:
+            try:
+                self.reset_swmm_env()
+                self.env = environment(self.config)
+            except:
+                self.env.sim.terminate_simulation()
+                self.reset_swmm_env()
+                self.env = environment(self.config)
+            
+            
+        
+        self.tstep = self.env.sim._model.getCurrentSimulationTime()
+
+        self.data_log = {"flow": {}, "time":[]}
+            
+        for ID, attribute in self.config["states"]:
+            self.data_log["flow"][ID] = []
+            
+        self.baseline = False
+            
+    def logger(self):
+        for attribute in self.data_log.keys():
+            if attribute not in ["rewards", "simulation_time", "time"]:
+                for element in self.data_log[attribute].keys():
+                    self.data_log[attribute][element].append(
+                        self.env.methods[attribute](element))
+                    
+    def step(self, log=True):
+        done = self.env.step()
+        self.tstep = self.env.sim._model.getCurrentSimulationTime()
+        if log:
+            self.logger()
+        self.data_log['time'].append(self.tstep)
+        return done
     
 class swmm_env(scenario):
     """
     Model name is the model .inp name WITHOUT the .inp extension
     """
-    def __init__(self, model_name='theta', threshold=0.2, scaling=1):
+    def __init__(self, model_name, config_name, threshold, scaling, action_penalty = 0,
+                 tolerance_from_baseline = 0.1, baseline_df = None, advance_seconds = None):
         # Network configuration
-        self.config = yaml.load(open("config/" + model_name + ".yaml", "r"), yaml.FullLoader)
+        self.config = yaml.load(open("config/" + config_name + ".yaml", "r"), yaml.FullLoader)
         self.config["swmm_input"] = model_name + '.inp'
         self.scaling = scaling
         self.threshold = threshold
+        self.action_penalty = action_penalty
+        self.advance_seconds = advance_seconds
+        self.sim_day_counter = 0
+        self.tolerance = tolerance_from_baseline
 
         # Create the environment based on the physical parameters
-        self.env = environment(self.config)
+        self.env = environment(self.config, advance_seconds = advance_seconds)
+        self.tstep = self.env.sim._model.getCurrentSimulationTime()
 
         # Create an object for storing the data points
         self.data_log = {"rewards": [], "flow": {}, "flooding": {},
-                         'depthN':{}, 'setting':{}}
+                         'depthN':{}, 'setting':{}, "time":[],
+                         'episode':[]}
 
         # Data logger for storing _performance data
         for ID, attribute in self.config["performance_targets"]:
@@ -303,57 +387,77 @@ class swmm_env(scenario):
             
         for ID, attribute in self.config["states"]:
             self.data_log[attribute][ID] = []
-            
         
-#        print('succesfully initiated class')
-#        print(self.data_log)
+        self.baseline = False
+        if baseline_df is not None:
+            self.baseline = True
+            self.baseline_df = baseline_df
+        
             
+    def reset_swmm_env(self):
+#        self.env.end_and_close()
+        self.env.sim.terminate_simulation()
+        self.env.sim.close()
+        self.env = environment(self.config, advance_seconds = self.advance_seconds)
+        self.tstep = self.env.sim._model.getCurrentSimulationTime()
+        self.sim_day_counter = 0
+        
+        state = self.env._state()
+        return state
+        
+        
     def logger(self):
         for attribute in self.data_log.keys():
-#            print('----')
-#            print(attribute)
-            if attribute not in ["rewards", "simulation_time"]:
-#                print('triggered if...')
-#                print(self.data_log[attribute])
-                for element in self.data_log[attribute].keys():
-#                    print(element)
+            if attribute not in ["rewards", "simulation_time", "time", "episode"]:
+                for element in self.data_log[attribute].keys(): # ID
                     self.data_log[attribute][element].append(
-                        self.env.methods[attribute](element)
-                        )
+                        self.env.methods[attribute](element))
+                    
 
-
-    def step(self, actions=None, log=True):
-        # Implement the actions and take a step forward
+    def step(self, actions=None, log=True, episode = 0):
+        self.prev_day = self.tstep.day
+        
         prev_actions = []
         for asset in self.config["action_space"]:
-#                print(asset, valve_position)
-            prev_actions.append(self.env._getValvePosition(asset))
-            
+                prev_actions.append(self.env._getValvePosition(asset))
         
         done = self.env.step(actions)
-
+        
         # Log the flows in the networks
         if log:
             self.logger()
+            
+        self.tstep = self.env.sim._model.getCurrentSimulationTime()
+        self.data_log['time'].append(self.tstep)
+        self.data_log['episode'].append(episode)
+        
+        time_elapsed = self.tstep - min(self.data_log['time'])
+        max_lag = max(self.config['lags_hrs'])
+#        print(max_lag)
+        while time_elapsed.total_seconds()/60/60 < max_lag:
+#            print(time_elapsed.seconds / 60 / 60)
+#            print(self.tstep)
+#            print(time_elapsed)
+            done = self.env.step(actions)    
 
-        # Estimate the performance
-#        print(actions)
-#        print(prev_actions)
-#        print((actions == prev_actions))
-        # add a negative reward for each adjustment
-#        print(prev_actions)
-#        print(actions)
-#        print(sum(actions == np.asarray(prev_actions)) - len(actions))
-        reward = 0 
-        for ac, prev_ac in zip(actions, prev_actions):
-            if abs(ac - prev_ac) > 0.01:
-                reward -= 0.5
+            if log:
+                self.logger()
+
+            self.tstep = self.env.sim._model.getCurrentSimulationTime()
+            self.data_log['time'].append(self.tstep)
+            self.data_log['episode'].append(episode)
+            
+            time_elapsed = self.tstep - min(self.data_log['time'])
+            
+
+        reward = 0
+        # penalize for taking action
+        if prev_actions is not None and actions is not None:
+            for ac, prev_ac in zip(actions, prev_actions):
+                if abs(ac - prev_ac) > 0.01:
+                    reward += self.action_penalty
         
-#        print(reward)
-#        reward = sum(actions == np.asarray(prev_actions)) - len(actions)
-#        print(reward)
-        
-#        print(reward)
+        idx = pd.IndexSlice
         
         for ID, attribute in self.config["performance_targets"]:
             if attribute == "flooding":
@@ -362,28 +466,75 @@ class swmm_env(scenario):
                     reward += __flood * -1 * self.scaling
             if attribute == "flow":
                 __flow = self.env.methods[attribute](ID)
-
+                if self.baseline:
+                    bsln_idx = np.argmin(abs(self.baseline_df.index-self.tstep))
+                    flow_bsln = self.baseline_df.loc[:, idx[attribute, ID]][bsln_idx]
+        
+                    if flow_bsln > self.threshold: 
+                        flow_bsln = self.threshold
+                    
+                    # if the flow is within tolerance, the reward is  
+                    # 1 over the exponentiated absolute percent difference
+                    # which is maximized at a percent difference of 0
+                    abs_perc_dif = abs(__flow/flow_bsln-1)
+                    if abs_perc_dif <= self.tolerance:
+                        reward += 1/np.exp(abs_perc_dif)
+                    # otherwise, the reward is the negative absolute difference
+                    else:
+                        reward -= 1 + abs(flow_bsln - __flow)
+                    
                 if __flow <= self.threshold:
                     reward += 0.0
                 else:
                     reward += (__flow - self.threshold) * self.scaling * -1
-
-        # Record the _performance
-        self.data_log["rewards"].append(reward)
         
 #        print(reward)
-#        print('---')
-        # Terminate the simulation
+        self.data_log["rewards"].append(reward)
+        
+        self.day = self.tstep.day        
+        if self.day != self.prev_day:
+            self.sim_day_counter += 1
+            if self.sim_day_counter % 10 == 0:
+                print('Simulation days elapsed: ' + str(self.sim_day_counter))
+        
 #        if done:
-#            self.env.end_and_close()
-#        reward = 5000
+#            print('In swmm_env, made it to last step of sim.')
         return done, reward
+    
+    def get_state(self):
+        cur_states = self.env._state() # current states and performance targets
+        # get lagged state variables
+        lag_states = []        
+        for ID, attribute in self.config["lagged_state_variables"]:
+            for lag_hrs in self.config['lags_hrs']:
+                ct = self.data_log['time'][-1]
+                lagged_idx = 0
+                dif = 0
+                while dif < lag_hrs:
+                    lagged_idx -= 1
+                    lt = self.data_log['time'][lagged_idx]
+                    dif = (ct - lt).total_seconds() / 60 / 60 # hours
+                    
+                lag_states.append(self.data_log[attribute][ID][lagged_idx])
+                 
+        return np.concatenate((cur_states, lag_states))
+        
 
 class custom_tensorflow_env(Environment):
 
-    def __init__(self, model_name, threshold, scaling):
+    def __init__(self, model_name, config_name, threshold, scaling = 1,
+                 action_penalty = 0, tolerance_from_baseline=0.1,
+                 baseline_df = None, advance_seconds = None):
+        
+        
         super().__init__()
-        self.swmm_env = swmm_env(model_name, threshold, scaling)
+        self.swmm_env = swmm_env(model_name, config_name, threshold, scaling,
+                                 action_penalty, tolerance_from_baseline,
+                                 baseline_df, advance_seconds)
+        
+        self.ep = 0
+#        print('starting episode ' + str(self.ep))
+    
 
     def states(self):
         state_count = 0 # include states and performance targets
@@ -392,6 +543,10 @@ class custom_tensorflow_env(Environment):
             
         for ID, attribute in self.swmm_env.config["states"]:
             state_count += 1
+            
+        for ID, attribute in self.swmm_env.config["lagged_state_variables"]:
+            for lag_hrs in self.swmm_env.config['lags_hrs']:
+                state_count += 1
         
         return dict(type='float', shape=(state_count,))
     # flood volume in P1 and P2
@@ -413,24 +568,33 @@ class custom_tensorflow_env(Environment):
 
     # Optional additional steps to close environment
     def close(self):
+#        try:
+#            self.swmm_env.env_bsln.end_and_close()
+#        except:
+#            pass
+        
         self.swmm_env.env.end_and_close()
 
+
+
     def reset(self):
-#        state = np.random.random(size=(8,))
-        return self.swmm_env.env.reset()
+        self.ep += 1
+        print('starting episode ' + str(self.ep))
+        self.swmm_env.reset_swmm_env()
+        self.swmm_env.step(episode = self.ep)
+        return self.swmm_env.get_state()
+    
 
     def execute(self, actions):
-#        print('1')
-        prev_state = self.swmm_env.env._state()
+#        print('executing...')
+        prev_state = self.swmm_env.get_state()
         
-        terminal, reward = self.swmm_env.step(actions)
+        terminal, reward = self.swmm_env.step(actions, episode = self.ep) # this automatically steps forward the baseline
         if terminal:
-#            print('3')
             next_state = prev_state
         else:
-#            print('4')
-            next_state = self.swmm_env.env._state()
-#        print('5')
+            next_state = self.swmm_env.get_state()
+        
         return next_state, terminal, reward
     
     
